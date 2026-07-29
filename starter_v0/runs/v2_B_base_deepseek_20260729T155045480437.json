@@ -1,0 +1,1803 @@
+{
+  "run_id": "v2_B_base_deepseek_20260729T155045480437",
+  "version": "v2",
+  "artifact_version": "v2+p181098db32e0+tf44a79f57ab3",
+  "prompt_hash": "181098db32e012a216d2e62e9144a08c37fc5a764c7ba53e54f080f074c6229b",
+  "tools_hash": "f44a79f57ab3dc46acdbf1b8ffc4b40ad874b11a71b85b11b50dfb99abde2c73",
+  "phase": "B",
+  "suite": "base",
+  "provider": "deepseek",
+  "model": "deepseek-chat",
+  "system_prompt": "D:\\DAY04_2A202601722_VuNgocHung\\starter_v0\\artifacts\\system_prompt.md",
+  "tools": "D:\\DAY04_2A202601722_VuNgocHung\\starter_v0\\artifacts\\tools.yaml",
+  "eval_cases": "data\\eval_base.json",
+  "dataset_id": "day04_v2_research_base",
+  "dataset_role": "base",
+  "description": "Core eval cho research agent: routing đúng tool + đúng args, hỏi lại khi thiếu (ask_user), xác nhận trước khi gửi, và xử lý câu ngoài phạm vi / không cần tool. Chấm trên tool_calls + args (subset). KHÔNG sửa file này — chỉ thêm case vào eval_group.json.",
+  "generated_at": "2026-07-29T15:50:45",
+  "summary": {
+    "total_cases": 20,
+    "measured_cases": 20,
+    "provider_error_cases": 0,
+    "passed_cases": 20,
+    "case_accuracy": 1.0,
+    "tool_routing_accuracy": 1.0,
+    "argument_accuracy": 1.0,
+    "multiturn_accuracy": 1.0,
+    "failure_counts": {},
+    "observed_mismatch_counts": {}
+  },
+  "results": [
+    {
+      "id": "R01_job_search_routing",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "routing_job_search",
+        "difficulty": "medium",
+        "what_it_tests": "Tìm việc làm theo từ khóa → gọi job_search."
+      },
+      "input": "Tìm các vị trí tuyển dụng Python Developer giúp mình",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "Python Developer"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "Python Developer",
+              "num_pages": 1
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "job_search",
+          "args": {
+            "query": "Python Developer",
+            "num_pages": 1
+          },
+          "result": {
+            "tool": "job_search",
+            "query": "Python Developer",
+            "items": [
+              {
+                "title": "Senior Python developer - Databricks, Azure",
+                "employer": "Mindlance",
+                "location": "Washington, US",
+                "summary": "Position Summary:\n\nPosition Title: Architect Standard III\n\nDuration: 12 Months - Long Term\n\nLocation: Washington, DC 20433\n\nHybrid Onsite: 4 days per week from Day 1, with a full transition to 100% on",
+                "url": "https://www.linkedin.com/jobs/view/senior-python-developer-databricks-azure-at-mindlance-4446396335",
+                "source": "JSearch"
+              },
+              {
+                "title": "Remote Python Developer",
+                "employer": "LookFar Labs",
+                "location": "Remote",
+                "summary": "Our Python Developer will have the opportunity to build scalable systems and software for commercial and government use, by developing scalable solutions that leverage modern architecture and best pra",
+                "url": "https://www.indeed.com/viewjob?jk=364f8f386d4e2224",
+                "source": "JSearch"
+              },
+              {
+                "title": "UI/UX developer - Python/Django",
+                "employer": "Ariadne",
+                "location": "Bethesda, US",
+                "summary": "We are searching for a UI/UX developer to support the National Center of Biotechnology Information. UI / UX Developer will work as part of the development team to develop and implement new Python and ",
+                "url": "https://www.linkedin.com/jobs/view/ui-ux-developer-python-django-at-ariadne-4441861113",
+                "source": "JSearch"
+              },
+              {
+                "title": "Entry Level Python Programmer/Data Scientist/Analyst",
+                "employer": "SynergisticIT",
+                "location": "Arlington, US",
+                "summary": "Entry-Level Data Analyst — Start Your Career in Data With Practical Skills\nData analyst roles are attractive because they sit at the intersection of business, technology, and decision-making. But entr",
+                "url": "https://www.careerbuilder.com/job-details/entry-level-python-programmer-data-scientist-analyst-arlington-va--8d08628a-827a-404b-9fb2-a43fa3b1208f",
+                "source": "JSearch"
+              },
+              {
+                "title": "Python Developer (AI and/or GIS Specialist)",
+                "employer": "Black Cape",
+                "location": "Bethesda, US",
+                "summary": "Black Cape\n\nTitle: Python Developer (AI and/or GIS Specialist)\n\nLocation: Bethesda, MD\n\nOnsite: Expected to go onsite (into a SCIF) 3 - 5 days per week\n\nClearance: TS/SCI - Must be willing to get a CI",
+                "url": "https://www.indeed.com/viewjob?jk=4b610840939cc407",
+                "source": "JSearch"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "R02_job_search_location",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "routing_job_search_location",
+        "difficulty": "easy",
+        "what_it_tests": "Tìm việc làm kèm địa điểm → gọi job_search."
+      },
+      "input": "Tìm việc làm Data Analyst tại Chicago",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "Data Analyst in Chicago"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "Data Analyst in Chicago",
+              "num_pages": 1
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "job_search",
+          "args": {
+            "query": "Data Analyst in Chicago",
+            "num_pages": 1
+          },
+          "result": {
+            "tool": "job_search",
+            "query": "Data Analyst in Chicago",
+            "items": [
+              {
+                "title": "Sr Data Analyst, Tech",
+                "employer": "Uber",
+                "location": "",
+                "summary": "About the Role\n\nThe Global Autonomous Vehicle (AV) Support organization defines the strategy for customer and partner support and oversees implementation, performance, and improvement across experienc",
+                "url": "https://jobs.uber.com/en/jobs/301003/",
+                "source": "JSearch"
+              },
+              {
+                "title": "Data Analyst II, Office of Data Analytics",
+                "employer": "UnitedHealth Group",
+                "location": "Remote",
+                "summary": "At UnitedHealthcare, we're simplifying the health care experience, creating healthier communities and removing barriers to quality care. The work you do here impacts the lives of millions of people fo",
+                "url": "https://www.dice.com/job-detail/a7ea35fe-82bf-4fb7-97e7-5bcdc22346fc",
+                "source": "JSearch"
+              },
+              {
+                "title": "Senior Data Analyst - Risk Product Data",
+                "employer": "Capital One",
+                "location": "",
+                "summary": "Senior Data Analyst - Risk Product Data\n\nAt Capital One, data is at the center of everything we do. When we launched as a startup we disrupted the credit card industry by individually personalizing ev",
+                "url": "https://www.capitalonecareers.com/job/mclean/senior-data-analyst-risk-product-data/1732/98246876496",
+                "source": "JSearch"
+              },
+              {
+                "title": "Sr Data Analyst, Tech",
+                "employer": "Uber",
+                "location": "Chicago, US",
+                "summary": "About The Role\n\nThe Global Autonomous Vehicle (AV) Support organization defines the strategy for customer and partner support and oversees implementation, performance, and improvement across experienc",
+                "url": "https://www.linkedin.com/jobs/view/sr-data-analyst-tech-at-uber-4443241462",
+                "source": "JSearch"
+              },
+              {
+                "title": "Data Analyst II, Office of Data Analytics",
+                "employer": "Optum",
+                "location": "Chicago, US",
+                "summary": "Requisition Number: 2370192\nAt UnitedHealthcare, we're simplifying the health care experience, creating healthier communities and removing barriers to quality care. The work you do here impacts the li",
+                "url": "https://www.builtinchicago.org/job/data-analyst-ii-office-data-analytics/10386650",
+                "source": "JSearch"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "R03_web_news_routing",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "routing_web_news",
+        "difficulty": "medium",
+        "what_it_tests": "Tin thời sự trên web → web_search topic=news, timeframe=day (hôm nay)."
+      },
+      "input": "Tin tức AI hôm nay có gì nổi bật?",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "AI",
+              "topic": "news",
+              "timeframe": "day"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "AI",
+              "topic": "news",
+              "timeframe": "day",
+              "max_results": 10
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "AI",
+            "topic": "news",
+            "timeframe": "day",
+            "max_results": 10
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "AI",
+            "topic": "news",
+            "timeframe": "day",
+            "items": [
+              {
+                "title": "How A.I. Books Sneak Their Way Into Stores",
+                "url": "https://www.nytimes.com/2026/07/28/books/ai-bookselling-amazon.html",
+                "source": "nytimes.com",
+                "summary": "A few years into the A.I. era, there is sobering evidence that a significant and growing portion of the novels being sold are written with or by chatbots, and that readers are buying them.\n\nA new study conducted by computer scientists using A.I. detection software to analyze thousands of self-published novels on Amazon, found that a substantial number of those novels contained chatbot-generated prose. [...] “The glut of the A.I. work makes discoverability very difficult,” Michaels said. “You’re talking about directly pirating my work, putting it into an engine so that you can produce a ‘Jess Michaels-type book,’ and then glutting the market with it.\n\n“I cannot tell you how soul-crushing it is,” she added. “It essentially erases actual authors.” [...] “In genre fiction, people are using A.I. to write these books, and readers are not able to tell,” said Tuhin Chakrabarty, a professor of computer science at the State University of New York at Stony Brook, who led the research.\n\nThank you for your patience while we verify access. If you are in Reader mode please exit and log into your Times account, or subscribe for all of The Times.\n\nThank you for your patience while we verify access.\n\nAlready a subscriber? Log in.",
+                "score": 0.30392852
+              },
+              {
+                "title": "Employees at the world's biggest AI companies are calling ...",
+                "url": "https://www.cnn.com/2026/07/28/tech/ai-development-tech-employees-open-letter",
+                "source": "cnn.com",
+                "summary": "OpenAI said in a statement to CNN they agree with potentially pacing the development of AI, adding they “hope to contribute to work led by the U.S. government, alongside other labs” on the topic.\n\nOpenAI CEO Sam Altman suggested it may be time to slow down AI development in a podcast interview Tuesday. The OpenAI models that broke out of their test environment are fueling “long term questions” about how AI companies should address this new rate of progress. [...] The letter comes on the heels of major advancements and burgeoning threats from rapidly developing AI systems. OpenAI disclosed last week that two of its test models escaped a lab environment, bypassed its systems to gain access to the open internet and hacked a different company’s internal system. [...] “[T]here is a real risk that capability development rapidly accelerates beyond our ability to understand or control the resulting systems,” the signees said. “To realize AI’s potential, industry, government, and society at large may need the option to buy time to address emerging risks, develop security measures, and strengthen oversight.”",
+                "score": 0.28810367
+              },
+              {
+                "title": "Meta's Zuckerberg warns against curbs on Chinese AI ...",
+                "url": "https://www.reuters.com/world/china/metas-zuckerberg-says-us-should-not-block-chinese-ai-models-ft-reports-2026-07-29",
+                "source": "reuters.com",
+                "summary": "19 mins agoWorld categorySK Hynix's record profit misses forecasts, shares slump 10% despite robust AI chip demand Image 6: SK Hynix at the Nasdaq market in New York \n   4 hours agoLegal categoryTech employees call for US-backed global effort to manage risks of advanced AI Image 7: Illustration shows words \"Artificial Intelligence AI\\ [...] 3 hours agoBusiness categoryEXCLUSIVE  OpenAI's rogue agent compromised a customer at a second tech firm, executive says Image 8: FILE PHOTO: Illustration shows OpenAI logo \n   5 hours agoCommentary categoryTrading Day: A show of resilience Image 9: Traders work on the floor of the NYSE in New York \n   6 hours agoTechnology categoryCoursera backs co-founder Andrew Ng's new AI education firm with $100 million investment , opens new tab [...] Skip to main content\n\nReport AdImage 2\n\nExclusive news, data and analytics for financial market professionals Learn more about Refinitiv\n\n - Meta (META.O), opens new tab CEO Mark Zuckerberg told ​the Financial Times the ‌U.S. government should not block Chinese ​models to gain ​an edge in the ⁠AI race, and ​warned against \"regulatory capture\" ​by American frontier labs that could stifle domestic ​competition.",
+                "score": 0.25570402
+              },
+              {
+                "title": "OpenAI's Rogue AI Agent Hacked More Than Just Hugging ...",
+                "url": "https://www.wired.com/story/openais-rogue-ai-agent-hacked-more-than-just-hugging-face",
+                "source": "wired.com",
+                "summary": "“Context bombing” tricks malicious AI agents into shutting down before they can do harm.\n\nDan Goodin, Ars Technica\n\nAI Found a Root Bug in Linux That Everyone Missed for 15 Years\n\nPlus: The Pentagon is training amateurs to become part of its hacker army, a Flock license plate reader error led to cops surrounding a car reviewer, and more.\n\nDell Cameron\n\nA Sneaky Hacking Tool Targeting AI Infrastructure Is Lurking in Victims’ Blind Spots [...] Maxwell Zeff is a senior writer at WIRED covering the business of artificial intelligence. He was previously a senior reporter with TechCrunch, where he broke news on startups and leaders driving the AI boom. Before that, Zeff covered AI policy and content moderation for Gizmodo and wrote some of Bloomberg’s ... Read More\n\nSenior Writer\n\nTopicsOpenAIagentic AIartificial intelligencecyberattackscybersecuritygenerative AI\n\nRead More\n\nOpenAI Models Escaped Containment and Hacked Hugging Face [...] The breach happened when OpenAI was testing one its latest AI models against ExploitGym, a benchmarking framework that scores AI systems on their ability to find and exploit software vulnerabilities. ExploitGym grades an agent on how quickly and effectively it can retrieve secret files from hundreds of different target systems, using prompts that essentially egg the models on to find solutions.",
+                "score": 0.24089554
+              },
+              {
+                "title": "Accenture wins $821M Pentagon AI data platform contract",
+                "url": "https://federalnewsnetwork.com/defense-news/2026/07/accenture-wins-821m-pentagon-ai-data-platform-contract",
+                "source": "federalnewsnetwork.com",
+                "summary": "Discover how federal agencies are applying AI to strengthen cybersecurity, improve operational efficiency and deliver measurable mission outcomes while balancing innovation, governance and human expertise.\n\nThe department said its initial order under the contract is focused on “high-impact, measurable mission outcomes that maximize the benefits of commercial pricing.” An Accenture spokesperson did not respond Tuesday to emailed questions about what that work entails. [...] The platform aims to combine more than 1,500 data sources, both commercial and military, to securely provide intelligence, targeting data and more to frontline troops and their commands, the AI office said, calling it “one of [DoD]’s most vital data platforms for AI exploitation and mission advantage.” [...] “The evolution of Advana’s data platform and application ecosystem over the last six years has led to a complex technical and programmatic architecture that we now must rationalize in order to capitalize on the full potential of AI and support warfighting, intelligence, and enterprise needs with the speed, security, and auditability required,” Deputy Defense Secretary Steve Feinberg said in a January memo.",
+                "score": 0.23064281
+              },
+              {
+                "title": "How do we prevent AI agents from going rogue? It starts ...",
+                "url": "https://www.theguardian.com/commentisfree/2026/jul/28/rogue-ai-agent-instructions",
+                "source": "theguardian.com",
+                "summary": "Bruce Schneier is a security technologist who teaches at the Harvard Kennedy School at Harvard University and University of Toronto’s Munk School\n Barath Raghavan is on the faculty at the University of Southern California and is a distinguished engineer at Fastly\n\nExplore more on these topics\n\n AI (artificial intelligence)\n Opinion\n OpenAI\n Hacking\n comment\n\nShare\n\nReuse this content\n\n## Most viewed\n\n## Most viewed [...] Read more\n\nAI labs know this is a problem, and they’re quietly saying so. For example, the Chinese lab Moonshot recently warned that its latest AI model may have “excessive proactiveness” and “make unexpected decisions on the user’s behalf”. The UK’s AI Security Institute has started tracking “cheating behaviour in frontier model evaluations”. We wouldn’t tolerate a car that is excessively proactive or ruthlessly efficient, and yet that’s the reality of AI today. [...] Their science experiment had escaped the lab. OpenAI was running the unreleased AI model through a benchmark that tests how well AI can successfully hack systems. To push the limits and evaluate the AI’s true capability, the company switched off the safety filters that normally stop it from doing this kind of hacking. Aware that this could go wrong, they confined the AI to an isolated environment and denied it access to the internet.",
+                "score": 0.22609979
+              },
+              {
+                "title": "Mark Zuckerberg Says U.S. Should Accelerate AI ...",
+                "url": "https://www.wsj.com/tech/ai/mark-zuckerberg-says-u-s-should-accelerate-ai-development-not-restrict-it-3bbe0868",
+                "source": "wsj.com",
+                "summary": "## Videos\n\n### Most Popular News\n\n### Most Popular\n\n### Further Reading\n\n### CoreWeave’s AI-Native Cloud Faces the Storm\n\n### IBM CEO Arvind Krishna Has Nowhere to Hide From AI\n\n### Japan to Buy Nvidia Chips to Power Its AI Push\n\n### America Needs More Weapons. JPMorgan Wants to Add Its Firepower.\n\n### Microsoft’s Satya Nadella: We Can’t Let AI Giants Eat the Economy [...] Optimism about AI’s impact on the world “should empirically be the default assumption of how this is going to play out,” the Meta Platforms META -0.08%decrease; down pointing triangle chief executive officer said in an interview. He cited historical analogues, recent jobs data and his own personal use of AI for parenting and fitness as informing his positive outlook on the technology.\n\nCopyright ©2026 Dow Jones & Company, Inc. All Rights Reserved. 87990cbe856818d5eddac44c7b1cdeb8\n\n## Videos [...] Listen\n\n(2 min)\n\nMeta CEO Mark Zuckerberg speaks at the Connect developer conference.\n\nMark Zuckerberg thinks artificial intelligence is working out great for humanity. His fear: that the people who think otherwise will influence who has access to the fast-evolving technology.",
+                "score": 0.21354152
+              },
+              {
+                "title": "An AI data center is being built on my grandma's garden",
+                "url": "https://www.ncronline.org/opinion/guest-voices/ai-data-center-being-built-my-grandmas-garden",
+                "source": "ncronline.org",
+                "summary": "When Liam Myers' grandma sold her house last year, she didn't know it was to an AI data center developer. Now, her grandson wrestles with the loss — and",
+                "score": 0.1682824
+              },
+              {
+                "title": "PwC published ‘thought leadership’ reports marred by AI hallucinations",
+                "url": "https://www.ft.com/content/7e149ac8-2ce2-4266-8940-192f9821b33c?syn-25a6b1a6=1",
+                "source": "ft.com",
+                "summary": "# PwC published ‘thought leadership’ reports marred by AI hallucinations\n\n## Try unlimited access\n\nThen R$375 per month. Complete digital access to quality FT journalism on any device. Cancel anytime during your trial.\n\n## Explore more offers.\n\n### FT Digital Edition\n\nOur digitised version of the FT newspaper, for easy reading on any device.\n\n### Standard Digital\n\nEssential digital access to quality FT journalism on any device. Pay a year upfront and save 20%.\n\n### Premium Digital [...] Complete digital access to quality FT journalism with expert analysis from industry leaders. Pay a year upfront and save 20%.\n\nCheck whether you already have access via your university or organisation.\n\nTerms & Conditions apply\n\n## Explore our full range of subscriptions.\n\n### For individuals\n\nDiscover all the plans currently available in your country\n\n### For multiple readers\n\nDigital access for organisations. Includes exclusive features and content.\n\n## Why the FT? [...] ## Why the FT?\n\nSee why over a million readers pay to read the Financial Times.\n\n## Useful links\n\n### Support\n\n### Legal & Privacy\n\n### Services\n\n### Tools\n\n### Community & Events\n\n### More from the FT Group\n\n## Top sections\n\n## FT recommends",
+                "score": 0.11004026
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "R04_read_url_routing",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "routing_read_url",
+        "difficulty": "easy",
+        "what_it_tests": "Đã có link cụ thể → read_url, không phải web_search."
+      },
+      "input": "Tóm tắt bài này giúp mình: https://openai.com/blog/gpt-5",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://openai.com/blog/gpt-5"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://openai.com/blog/gpt-5"
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://openai.com/blog/gpt-5"
+          },
+          "result": {
+            "tool": "read_url",
+            "url": "https://openai.com/blog/gpt-5",
+            "items": [
+              {
+                "title": "OpenAI",
+                "url": "https://openai.com/blog/gpt-5",
+                "source": "openai.com",
+                "summary": "OpenAI\n\n# 404\n\nThe index rests now\n\nQuiet shelves hold their places\n\nChoose another book\n\nby [gpt-5.6-sol(opens in a new window)](https://chatgpt.com/?model=gpt-5.6-sol&openaicom-did=dba71ae9-3a13-449c-a57d-55ef715ec2f2&openaicom_referred=true)"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "R05_limit_arg",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "arg_num_pages",
+        "difficulty": "easy",
+        "what_it_tests": "Trích đúng num_pages=2 từ '2 trang'."
+      },
+      "input": "Tìm kiếm việc làm AI Engineer lấy 2 trang kết quả",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "AI Engineer",
+              "num_pages": 2
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "AI Engineer",
+              "num_pages": 2
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "job_search",
+          "args": {
+            "query": "AI Engineer",
+            "num_pages": 2
+          },
+          "result": {
+            "tool": "job_search",
+            "query": "AI Engineer",
+            "items": [
+              {
+                "title": "AI Security Software Engineer",
+                "employer": "Carnegie Mellon University",
+                "location": "Arlington, US",
+                "summary": "The CERT Division of the Software Engineering Institute (SEI) is seeking applicants for the role of AI Security Software Engineer. Established in response to the Morris worm, CERT has been a leader in",
+                "url": "https://www.linkedin.com/jobs/view/ai-security-software-engineer-at-carnegie-mellon-university-4415938890",
+                "source": "JSearch"
+              },
+              {
+                "title": "Enterprise AI Engineer (Associate AI Solutions Officer)",
+                "employer": "World Bank Group",
+                "location": "Washington, US",
+                "summary": "Enterprise AI Engineer (Associate AI Solutions Officer)\n\r\n\r\n\r\n\r\n\r\nJob #:\r\n\r\nreq37873\r\n\r\n\r\n\r\nOrganization:\r\n\r\nWorld Bank\r\n\r\n\r\n\r\nSector:\r\n\r\nInformation Technology\r\n\r\n\r\n\r\nGrade:\r\n\r\nGF\r\n\r\nTerm Duration: 3",
+                "url": "https://worldbankgroup.csod.com/ux/ats/careersite/1/home/requisition/37873?c=worldbankgroup",
+                "source": "JSearch"
+              },
+              {
+                "title": "Cyber Operations Engineer - Artificial Intelligence",
+                "employer": "The MITRE Corporation",
+                "location": "McLean, US",
+                "summary": "Why choose between doing meaningful work and having a fulfilling life? At MITRE, you can have both. That's because MITRE people are committed to tackling our nation's toughest challenges—and we're com",
+                "url": "https://careers.mitre.org/us/en/job/R116703/Cyber-Operations-Engineer-Artificial-Intelligence",
+                "source": "JSearch"
+              },
+              {
+                "title": "AI Engineer, Platform Infrastructure, Special Programs",
+                "employer": "SpaceX",
+                "location": "Washington, US",
+                "summary": "SpaceX was founded under the belief that a future where humanity is out exploring the stars is fundamentally more exciting than one where we are not. Today SpaceX is actively developing the technologi",
+                "url": "https://www.linkedin.com/jobs/view/ai-engineer-platform-infrastructure-special-programs-at-spacex-4416743387",
+                "source": "JSearch"
+              },
+              {
+                "title": "Agentic AI Engineer",
+                "employer": "RTX",
+                "location": "Arlington, US",
+                "summary": "Date Posted:\n2026-06-25\n\nCountry:\nUnited States of America\n\nLocation:\nUS-VA-ARLINGTON-111 1300 17Th St N BBN ARLINGTON\n\nPosition Role Type:\nHybrid\n\nU.S. Citizen, U.S. Person, or Immigration Status Req",
+                "url": "https://careers.rtx.com/de/de/job/01855543/Agentic-AI-Engineer",
+                "source": "JSearch"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "R06_timeframe_arg",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "arg_timeframe",
+        "difficulty": "medium",
+        "what_it_tests": "'tuần này' → timeframe=week."
+      },
+      "input": "Tin công nghệ trong tuần này",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "topic": "news",
+              "timeframe": "week"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "công nghệ tin tức trong tuần",
+              "topic": "news",
+              "timeframe": "week",
+              "max_results": 10
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "công nghệ tin tức trong tuần",
+            "topic": "news",
+            "timeframe": "week",
+            "max_results": 10
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "công nghệ tin tức trong tuần",
+            "topic": "news",
+            "timeframe": "week",
+            "items": [
+              {
+                "title": "Chốt phiên chứng khoán Mỹ: Dow Jones tăng 500 điểm, Chỉ số Bán dẫn Philadelphia giảm hơn 4%; Cổ phiếu bộ nhớ, truyền thông quang học nới rộng đà giảm, nhóm cổ phiếu phần mềm hồi phục; Apple chạm mốc vốn hóa 5 nghìn tỷ USD, SanDisk giảm xu",
+                "url": "https://www.tradingkey.com/vn/analysis/stocks/chung-khoan-my/262059554-us-stock-dow-500-apple-5-trillion-market-cap-sox-4-percent-sandisk-below-1100-tradingkey",
+                "source": "tradingkey.com",
+                "summary": "TradingKey9 giờ trước\n\nTiêu điểm\n\nHiệu suất Cổ phiếu Công nghệTin tức Doanh nghiệpTin tức Ngành & Vĩ mô\n\nCông cụ nổi bật\n\ntk_center_stock_scoreĐiểm số cổ phiếucalendar_economicCalendarLịch kinh tếsearch.intelligent.strategyLựa chọn thông minharticle_asider_weekly_reportBáo cáo hàng tuần\n\nTin tức hàng đầu\n\nlink\n\nASML lao dốc hơn 8% khi Trung Quốc bắt đầu sản xuất hàng loạt máy quang khắc DUV nhúng; Lợi thế cạnh tranh có thể đối mặt với thách thức? [...] Các cổ phiếu chip nhớ tiếp tục nới rộng đà giảm, trong đó SanDisk (SNDK) giảm 14,25%, SK Hynix (SKHY) giảm 8,98%, Micron Technology (MU) giảm 8,85%, Seagate Technology (STX) giảm 8,53% và Western Digital (WDC) giảm 6,91%.\n\n## Tin tức Doanh nghiệp\n\nAmazon cải tổ chiến lược AI, tập trung vào Nghiên cứu Mô hình Tiên phong (FMR) [...] Theo Hãng thông tấn Tasnim của Iran, Thứ trưởng Ngoại giao Iran tuyên bố rằng một đề xuất đã được gửi tới Oman để đàm phán về một tuyến vận tải biển tạm thời ở eo biển Hormuz. Nếu đạt được thỏa thuận, tuyến đường này sẽ thay thế các tuyến vận tải bắc-nam hiện tại. Thứ trưởng Ngoại giao cho biết Oman đề xuất thiết kế một luồng hàng hải do Iran kiểm soát 50% và Oman kiểm soát 50%. \"Chúng tôi đã tuyên bố rằng điều này sẽ không giải quyết được những lo ngại của Iran,\" ông nói. \"Chúng tôi nói rằng",
+                "score": 0.5037359
+              },
+              {
+                "title": "Top 5 tin tức về Trump khiến thị trường biến động trong tuần này",
+                "url": "https://vn.beincrypto.com/top-five-trump-news-this-week",
+                "source": "vn.beincrypto.com",
+                "summary": "Là một nhà báo giàu kinh nghiệm về thị trường tài chính và tiền mã hóa, Mohammad được công nhận nhờ chuyên môn về bảo mật blockchain và được xem là một nhà lãnh đạo tư tưởng trong lĩnh vực này. Anh bắt đầu sự nghiệp với công việc viết về các công nghệ an ninh cho các công ty như Trustwave và Radiant Logic trước khi chuyển sang báo chí tài chính, đồng thời từng diễn thuyết về an ninh mạng, tài sản số và các rủi ro mới nổi tại các hội nghị Web3 lớn toàn cầu. [...] Việc tăng thuế còn đe dọa biên lợi nhuận của các doanh nghiệp, nhất là các công ty sản xuất hàng tiêu dùng, ô tô và công nghệ vốn đang đứng trước nhiều rủi ro nhất.\n\n## 3. Canada trở thành mục tiêu thương mại mới nhất\n\nTrump đã công bố mức thuế bổ sung 50% lên khoảng 20 tỷ USD hàng hóa từ Canada, ảnh hưởng đến các mặt hàng như sữa, rượu vang, đồ nội thất, xi măng và thiết bị thể thao. [...] Lệnh ngừng bắn giữa Mỹ-Iran chỉ là ảo tưởng, thị trường đang phải trả giá\nCách việc niêm yết công khai thay đổi các công ty crypto\nCác AI agent mang đến quy tắc mới cho ví crypto\nThủ tướng tiếp theo có thể quyết định tương lai crypto của Anh\nBáo cáo về Token hóa\nBáo cáo #2 — sắp ra mắt\nPháp lý & Quy định\nPhân tích Thị trường\nCông nghệ Tương lai & AI\nChiến lược Tổ chức & Tài chính On-Chain\nMohammad Shahid\n\n#### Mohammad Shahid",
+                "score": 0.48352703
+              },
+              {
+                "title": "Quảng Trị triển khai đồng bộ các giải pháp phát triển nông nghiệp xanh đến năm 2030",
+                "url": "https://www.quangtri.gov.vn/tin-tuc/quang-tri-trien-khai-dong-bo-cac-giai-phap-phat-trien-nong-nghiep-xanh-den-nam-2030",
+                "source": "quangtri.gov.vn",
+                "summary": "Ban Chỉ đạo quốc gia về chống khai thác IUU họp phiên thứ 35\n  (28/07/2026)\n (Video) Điểm tin chỉ đạo, điều hành nổi bật của lãnh đạo UBND tỉnh trong tuần (từ 20/7 - 26/7/2026)\n  (28/07/2026)\n Tập huấn về nhận diện thách thức trong ứng dụng công nghệ số và chuyển đổi số đối với cấp tỉnh trong thời kỳ mới\n  (28/07/2026)\n Trung tm Điều hành thông tin tỉnh: Tập huấn hướng dẫn sử dụng Phn hệ Theo dõi nhiệm vụ của UBND tỉnh, Chủ tịch UBND tỉnh giao\n  (28/07/2026) [...] (28/07/2026)\n (Video) Bản tin hoạt động nổi bật của lãnh đạo UBND tỉnh trong tuần (từ 20/7 - 26/7/2026)\n  (27/07/2026)\n Thông báo kết luận của Chủ tọa kỳ họp tại phiên chất vấn kỳ họp thứ 4, HĐND tỉnh khóa IX\n  (27/07/2026)\n Những chính sách nổi bật có hiệu lực từ tháng 8/2026\n  (27/07/2026)\n Cầu truyền hình “Sao sáng dẫn đường” lan tỏa thông điệp tri n các Anh hùng Liệt sĩ\n  (26/07/2026)\n Thả hoa đăng tri n các Anh hùng, liệt sĩ bên dòng Thạch Hãn\n  (24/07/2026) [...] Giới thiệu\nBộ máy tổ chức\nSố liệu Kinh tế - Xã hội\n\nQuảng Trị\n30°C\n-\n31°C\n☁️\n\n#### A\n\nTin tức nổi bật\nTin hoạt động Chủ tịch Lê Hồng Vinh\nTin tức chuyển đổi số\nTin hoạt động Phó Chủ tịch Lê Văn Bảo\n...\n\n# Quảng Trị triển khai đồng bộ các giải pháp phát triển nông nghiệp xanh đến năm 2030\n\nCập nhật: 28/07/2026 12:43",
+                "score": 0.27626246
+              },
+              {
+                "title": "Bản tin thị trường Ấn Độ tuần từ 20/7/2026 - 27/7/2026",
+                "url": "https://moit.gov.vn/tin-tuc/ban-tin-thi-truong-an-do-tuan-tu-20-7-2026-27-7-2026.html",
+                "source": "moit.gov.vn",
+                "summary": "Ấn Độ đang đẩy mạnh hợp tác với Myanmar nhằm bảo đảm nguồn cung đất hiếm và khoáng sản quan trọng phục vụ chiến lược phát triển công nghiệp công nghệ cao. Phát biểu tại Diễn đàn Khai khoáng tổ chức tại Mandalay, Đại sứ Ấn Độ tại Myanmar cho biết hợp tác giữa hai nước trong lĩnh vực khai khoáng đã có nhiều tiến triển đáng kể trong hai năm gần đy. [...] Malaysia khởi xướng điều tra chống bán phá giá đối với mặt hàng thép hợp kim nhôm kẽm có xuất xứ hoặc nhập khẩu từ Việt Nam, Trung Quốc, Đài Loan – Trung Quốc\n\nThông báo đề xuất nhu cầu đặt hàng nhiệm khoa học công nghệ, đổi mới sáng tạo\n\nVăn hóa đọc: Góp phần quan trọng bảo vệ nền tảng tư tưởng của Đảng\n\nĐưa Nghị quyết của Đảng vào cuộc sống từ xy dựng văn hóa doanh nghiệp\n\nNghị quyết số 10-NQ/TW: Bước chuyển quan trọng trong tư duy thu hút FDI [...] Lạng Sơn: Tiêu hủy nhiều hàng hóa xm phạm quyền sở hữu trí tuệ\n\n### Tin nổi bật\n\nThương vụ Việt Nam tại Mexico kết nối doanh nghiệp tham gia Vietnam International Sourcing 2026 \n\nThương vụ Việt Nam tại Mexico kết nối doanh nghiệp tham gia Vietnam International Sourcing 2026\n\nBộ Công Thương ban hành Chương trình hành động thực hiện mục tiêu tăng trưởng hai con số \n\nBộ Công Thương ban hành Chương trình hành động thực hiện mục tiêu tăng trưởng hai con số",
+                "score": 0.2583194
+              },
+              {
+                "title": "Nhân lực công nghệ cao: Việt Nam không thiếu mà là do ...",
+                "url": "https://hatinh.gov.vn/vi/bai-viet/nhan-luc-cong-nghe-cao-viet-nam-khong-thieu-ma-la-do-luong-chua-du-hap-dan",
+                "source": "hatinh.gov.vn",
+                "summary": "Chia sẻ tại một tọa đàm trong khuôn khổ Ngày hội công nghệ, hưởng ứng Tuần lễ đổi mới sáng tạo thế giới mới đy, TS Nguyễn Thanh Bình, quản lý chương trình cao cấp, Đại học RMIT cho biết, một trong những điểm yếu của đào tạo nhn lực công nghệ hiện nay tại Việt Nam chính là thiếu nền tảng.\n\n“Về giáo dục, cần nghiên cứu su về chiều su công nghệ và áp dụng công nghệ trong cả tài chính lẫn kinh doanh. Điều này rất quan trọng và ở đy, nền tảng chính là nghiên cứu”, TS Nguyễn Thanh Bình chỉ rõ. [...] # Cổng thông tin điện tử\n\n## Tỉnh Hà Tĩnh\n\n| |  Thứ Ba, 28/07/2026\n\nGiới thiệu  \nChính quyền  Số liệu  \n Kinh tế - Xã hội\n\nHà Tĩnh 24° - 31°  | Thứ 3, 28/07/2026 icon\n\n# Nhn lực công nghệ cao: Việt Nam không thiếu mà là do lương chưa đủ hấp dẫn?\n\nĐăng tải: 03/05/2024 00:00\n\n A) A) A) [...] 28/07/2026\n\nĐại tướng Phan Văn Giang: Đưa sĩ quan qun đội chính quy về cấp xã\n\n#### Đại tướng Phan Văn Giang: Đưa sĩ quan qun đội chính quy về cấp xã\n\n28/07/2026\n\nNhững quyết sách vì sự phát triển của đất nước và hạnh phúc của Nhn dn\n\n#### Những quyết sách vì sự phát triển của đất nước và hạnh phúc của Nhn dn\n\n27/07/2026\n\nNhững điểm mới của Pháp lệnh Ưu đãi người có công với cách mạng\n\n#### Những điểm mới của Pháp lệnh Ưu đãi người có công với cách mạng\n\n27/07/2026",
+                "score": 0.17964599
+              },
+              {
+                "title": "Fubon Life phối hợp Quỹ Sai Trân Châu triển khai “Chương trình bảo vệ an toàn tài chính cho tân di dân mới 2026”",
+                "url": "https://www.rti.org.tw/vn/news?uid=3&pid=222670",
+                "source": "rti.org.tw",
+                "summary": "Lệ Phương\n\nQuay về Tổng quan Về trang trước\n\nTin tức nổi ḅt trong tùn\n\nBão Noul dự kiến ​​hình thành vào ngày 24/7 và sẽ di chuyển qua vùng biển phía nam Đài Loan\n\n1\n\nLễ tiễn biệt ông Lm Vinh Cơ sẽ diễn ra ngày 31/7, rất nhiều người đặc biệt từ Hong Kong đến tham gia loạt hoạt động tưởng niệm ông\n\n2\n\nBão nhiệt đới Noul áp sát Đài Loan từ tối nay đến ngày mai, cảnh báo gió mạnh, mưa lớn và sóng to\n\n3 [...] Viện Lập pháp đã thông qua vòng ba \"Luật Tài khoản tương lai và Phát triển dành cho trẻ em và thanh thiếu niên Đài Loan\", do Quốc dn đảng và Đảng Dn chúng Đài Loan cùng thúc đẩy vào ngày 24/7. Theo luật, chính phủ sẽ mở một tài khoản tương lai cho mỗi trẻ em, ...\n\n 22 hr\n\nMenu-Open Menu-Close\n\n Formosa Dream Chasers - Programs - RTI Radio Taiwan International-logo-rwd  Tin tức\n\nLanguage Tìm kiếm\n\nTổng quan  Xem nhiều   Tin nổi ḅt [...] Skip to the main content block\n\n::: Trang chủ| Sơ đồ website| Podcasts|\n\n|\n\nLanguage\n\nmenu close\n\nTin tức   Chương trình   Videos   Podcasts   Giới thiệu về RTI\n\n# Formosa Dream Chasers - Programs - RTI Radio Taiwan International-logo\n\nTin tức\n\n| Tổng quan  Xem nhiều   Tin nổi ḅt\n\n Tìm kiếm\n\nTìm kiếm\n\nTin nổi ḅt \n\nCuộc tập trận Hán Quang số 42 sẽ diễn ra vào ngày 5/8. Tổng thống: Cần ngăn chặn thông tin sai lệch và tin giả làm suy giảm lòng tin đối với qun đội",
+                "score": 0.16114885
+              },
+              {
+                "title": "Tin tức",
+                "url": "https://nhandan.vn/tin-tuc-post974372.html",
+                "source": "nhandan.vn",
+                "summary": "... • Tại Hà Nội, Công ty cổ phần Giải pháp Công nghệ Việt Nam - VETS phối hợp cùng Cục Đổi mới sáng tạo, Chuyển đổi xanh và Khuyến công (Bộ Công thương)",
+                "score": 0.14174438
+              },
+              {
+                "title": "Ông Tô Lâm 'sắp đi Úc'",
+                "url": "https://www.bbc.com/vietnamese/articles/cwyl6lp49e2o",
+                "source": "bbc.com",
+                "summary": "### Video, Ba quản lý Việt Nam Airlines bị truy tố tại Singapore: Tại sao?, Thời lượng 2,40\n\n### Video, Người Việt Nam thiệt mạng khi chiến đấu cho Nga trong cuộc chiến với Ukraine là ai?, Thời lượng 2,57\n\n## Tin chính\n\n### Bắt Thứ trưởng Hoàng Trung\n\n### Việt Nam 'sắp đạt thỏa thuận' mua máy bay quân sự Yak-130M của Nga\n\n### ‘Tàu Khôi Nguyên 18 chìm khi đang đi bồi đắp đảo ở Biển Đông’\n\n## BBC giới thiệu\n\nCảnh làng Vân trước và sau khởi công [...] ### Vì sao các dự án điện LNG của Việt Nam đình trệ và tỷ phú Phạm Nhật Vượng rút lui?\n\nTô Lâm, Donald Trump, Tận Cận Bình\n\n### Mỹ-Việt đàm phán thương mại, báo Trung Quốc nhắn Hà Nội 'không nên chọn phe'\n\n## Video\n\n### Video, Thấy gì khi ông Tô Lâm được Nga trao giải Hòa bình Quốc tế Lev N.Tolstoy 2026?, Thời lượng 9,27\n\n### Video, ‘Chuyện với Thanh’: Từ dư luận viên đến đấu tố, bản chất cuộc chiến là gì?, Thời lượng 15,36 [...] Việc ông Nguyễn Thành Nam bị bắt đã khiến mạng xã hội Việt Nam dậy sóng\n\n### Vụ ông Nguyễn Thành Nam: Người 'yêu Bác' bị bắt, bước ngoặt 'kỷ nguyên mới'?\n\nMột người phụ nữ đội nón lá đi trên cây cầu bắc qua sông Hồng \n\n### Siêu dự án Trục đại lộ cảnh quan sông Hồng: Những thành phố khác đã làm gì với các dòng sông của họ?\n\nGiao thông ở TP HCM\n\n### 50 năm Sài Gòn đổi tên: Vòng xoáy lịch sử từ 'đánh tư sản' đến tái dựng kinh tế\n\nHình ảnh TP HCM, báo chí",
+                "score": 0.081644304
+              },
+              {
+                "title": "Citadel dự đoán Fed tăng lãi suất bất ngờ khi xác suất đạt 37.9%",
+                "url": "https://vn.beincrypto.com/citadel-fed-rate-hike-odds",
+                "source": "vn.beincrypto.com",
+                "summary": "Trong khi đó, hầu hết các nhà đầu tư trên thị trường vẫn cho rằng Fed sẽ giữ nguyên lãi suất, mặc dù xác suất tăng lãi suất cũng đã tăng khá nhanh. Mức thay đổi này khác nhau tùy từng nền tảng giao dịch.\n\nCME FedWatch đã đặt xác suất Fed tăng 0.25% lãi suất vào thứ Ba là 37.9%. Tuần trước, con số này chỉ ở mức 25.7%.\n\nXác suất Fed tăng lãi suất\n\nCác sàn dự đoán vẫn tỏ ra thận trọng hơn. Kalshi đánh giá xác suất này ở mức 28%, còn Polymarket đặt mức 27.5%. [...] Lệnh ngừng bắn giữa Mỹ-Iran chỉ là ảo tưởng, thị trường đang phải trả giá\nCách việc niêm yết công khai thay đổi các công ty crypto\nCác AI agent mang đến quy tắc mới cho ví crypto\nThủ tướng tiếp theo có thể quyết định tương lai crypto của Anh\nBáo cáo về Token hóa\nBáo cáo #2 — sắp ra mắt\nPháp lý & Quy định\nPhân tích Thị trường\nCông nghệ Tương lai & AI\nChiến lược Tổ chức & Tài chính On-Chain\nKamina Bashir\n\n#### Kamina Bashir [...] Mặc dù một số số liệu về việc làm và lạm phát được công bố gần đây đã làm giảm kỳ vọng rằng Fed sẽ cắt giảm lãi suất trong tháng 07, Flight cho rằng bức tranh tổng thể vẫn cho thấy các nguy cơ lạm phát còn dai dẳng và thị trường lao động vẫn ổn định.\n\nTheo dõi chúng tôi trên X để cập nhật tin tức mới nhất\n\n## Các nhà giao dịch đang dự đoán gì về quyết định của Fed vào thứ Tư?",
+                "score": 0.0764423
+              },
+              {
+                "title": "Thời sự 24h qua ảnh chiều 26/7",
+                "url": "https://baotintuc.vn/video/thoi-su-24h-qua-anh-chieu-267-v20260726174009509.htm",
+                "source": "baotintuc.vn",
+                "summary": "Mời quý vị và các bạn theo dõi bản tin thời sự 24h qua ảnh, chiều 26/7.",
+                "score": 0.06302537
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "R07_job_search_remote",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "arg_job_remote",
+        "difficulty": "medium",
+        "what_it_tests": "Tìm việc làm remote -> job_search query có remote."
+      },
+      "input": "Tìm việc làm React Native từ xa (remote)",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "React Native remote"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "React Native remote",
+              "num_pages": 1
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "job_search",
+          "args": {
+            "query": "React Native remote",
+            "num_pages": 1
+          },
+          "result": {
+            "tool": "job_search",
+            "query": "React Native remote",
+            "items": [
+              {
+                "title": "React Native Developer - Full Remote",
+                "employer": "goPro Consultancy Group ltd.",
+                "location": "Remote",
+                "summary": "Category: IT Services\n\nLocation:\n\nFor an international organization in New York, we are urgently looking for a REMOTE React Native Developer. Candidates need to be fluent in English. All positions are",
+                "url": "https://remotejobs.org/remote-jobs/react-native-developer-full-remote-gopro-consultancy-group-ltd",
+                "source": "JSearch"
+              },
+              {
+                "title": "Remote Front-End Developer Intern (React Native)",
+                "employer": "NightUp (Formerly BottleUp)",
+                "location": "Remote",
+                "summary": "As a react native developer intern, you will be building mobile apps on both the iOS and Android platforms. You will be responsible for architecting and building these applications, as well as coordin",
+                "url": "https://wellfound.com/jobs/50507-remote-front-end-developer-intern-react-native",
+                "source": "JSearch"
+              },
+              {
+                "title": "React Native Developer (Remote)",
+                "employer": "Foundation Labs",
+                "location": "Remote",
+                "summary": "Foundation Labs is a software development agency headquartered in Silicon Valley with a reputation for being the best in the industry. We have a very positive and empathetic culture that gives everyon",
+                "url": "https://www.monster.com/job-openings/react-native-developer-remote-menlo-park-ca--09350493-da82-4876-b900-45d9de44cc2b",
+                "source": "JSearch"
+              },
+              {
+                "title": "Remote React Native Engineer - Flexible Hours & Growth",
+                "employer": "BairesDev",
+                "location": "Remote",
+                "summary": "BairesDev is looking for a Software Engineer specializing in React Native to design and develop scalable, high-performance mobile applications. You will create a seamless user experience by leveraging",
+                "url": "https://www.jobleads.com/us/job/remote-react-native-engineer-flexible-hours-growth--united-states--e3b61b3fb5ecbc3a948880e2fd364601c",
+                "source": "JSearch"
+              },
+              {
+                "title": "Per Diem is expending and looking for a React Native experience developer",
+                "employer": "Per Diem",
+                "location": "Remote",
+                "summary": "Job Title: React Native Engineer\n\nLocation: Remote\n\nAbout Us:\n\nPer Diem (tryperdiem.com) is a YC-backed startup helping SMBs thrive with a white-label mobile app platform. We’re building tools that ge",
+                "url": "https://www.ycombinator.com/companies/per-diem/jobs/yTpvIRZ-per-diem-is-expending-and-looking-for-a-react-native-experience-developer",
+                "source": "JSearch"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "R08_out_of_scope",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "out_of_scope",
+        "difficulty": "easy",
+        "what_it_tests": "Câu ngoài phạm vi research → KHÔNG gọi tool, từ chối/định hướng."
+      },
+      "input": "Giải giúp mình bài toán tích phân: nguyên hàm của x^2 là gì?",
+      "expect": {
+        "no_tool": true,
+        "behavior": "refuse"
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Bài toán này thuộc về toán học cơ bản, mình có thể trả lời trực tiếp mà không cần tra cứu thêm.\n\n**Nguyên hàm của \\( x^2 \\)** là:\n\n\\[\n\\int x^2 \\, dx = \\frac{x^3}{3} + C\n\\]\n\nTrong đó:\n- \\(\\frac{x^3}{3}\\) là phần nguyên hàm chính.\n- \\(C\\) là hằng số tích phân (vì nguyên hàm có vô số họ hàm số sai khác nhau một hằng số).\n\n**Giải thích nhanh:**  \nÁp dụng công thức nguyên hàm cơ bản:  \n\\[\n\\int x^n \\, dx = \\frac{x^{n+1}}{n+1} + C \\quad (n \\neq -1)\n\\]  \nVới \\(n = 2\\), ta có:  \n\\[\n\\int x^2 \\, dx = \\frac{x^{2+1}}{2+1} + C = \\frac{x^3}{3} + C\n\\]\n\nBạn cần giải thêm bài tích phân nào khác không? 😊",
+        "case_failure_type": "out_of_scope",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": "R09_no_tool_capability",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "no_tool_meta",
+        "difficulty": "easy",
+        "what_it_tests": "Câu hỏi meta → trả lời thẳng, KHÔNG gọi tool."
+      },
+      "input": "Bạn là gì và làm được những gì?",
+      "expect": {
+        "no_tool": true,
+        "behavior": "answer_without_tool"
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Chào bạn! 👋 Mình là một trợ lý AI đa năng, được trang bị nhiều công cụ để hỗ trợ bạn trong các tác vụ khác nhau. Dưới đây là những gì mình có thể làm:\n\n---\n\n### 🌐 **Tra cứu thông tin**\n- **Tìm kiếm trên web** (`lookup`): Tra cứu tin tức, kiến thức tổng quát theo chủ đề.\n- **Đọc nội dung trang web** (`fetch`): Lấy nội dung từ một URL cụ thể.\n\n### 📱 **Mạng xã hội**\n- **Xem timeline** (`timeline`): Lấy các bài đăng gần đây từ một tài khoản.\n- **Tìm kiếm mạng xã hội** (`social_search`): Tìm bài viết, thảo luận theo từ khóa.\n\n### 📄 **Nghiên cứu & Học thuật**\n- **Tìm kiếm bài báo khoa học** (`papers`): Tra cứu các bài báo trên arXiv.\n- **Đọc nội dung bài báo** (`paper_text`): Lấy toàn văn bài báo khoa học.\n\n### 💼 **Việc làm**\n- **Tìm kiếm tuyển dụng** (`job_search`): Tra cứu cơ hội việc làm theo vị trí, địa điểm.\n\n### 📝 **Soạn thảo & Đăng bài**\n- **Định dạng nội dung** (`format`): Trình bày dữ liệu thành văn bản theo nhiều khuôn mẫu (tóm tắt, bullet, thread...).\n- **Gửi nội dung** (`send`): Gửi văn bản đi (cần có sự xác nhận của bạn trước).\n\n### ❓ **Hỏi đáp & Xác nhận**\n- **Làm rõ thông tin** (`clarify`): Hỏi bạn để xin thêm thông tin hoặc xác nhận trước khi thực hiện hành động.\n\n---\n\n**Lưu ý:** Mình không thể tự ý đăng bài hay gửi nội dung đi đâu nếu chưa có sự đồng ý của bạn nhé! 😊\n\nBạn cần mình giúp gì hôm nay?",
+        "case_failure_type": "unnecessary_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": "R10_missing_job_query",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "clarify_missing_job_query",
+        "difficulty": "medium",
+        "what_it_tests": "Nói 'tìm việc làm' nhưng không nêu vị trí/ngành nghề → ask_user hỏi vị trí."
+      },
+      "input": "Tìm danh sách tuyển dụng việc làm giúp mình",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "question": "Bạn muốn tìm việc làm ở vị trí (role) nào? Ví dụ: Python Developer, Data Analyst, AI Engineer,... Bạn có yêu cầu về địa điểm không?",
+              "response_type": "text"
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Bạn muốn tìm việc làm ở vị trí (role) nào? Ví dụ: Python Developer, Data Analyst, AI Engineer,... Bạn có yêu cầu về địa điểm không?",
+            "response_type": "text"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn muốn tìm việc làm ở vị trí (role) nào? Ví dụ: Python Developer, Data Analyst, AI Engineer,... Bạn có yêu cầu về địa điểm không?",
+            "response_type": "text",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "R11_missing_url",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "clarify_missing_url",
+        "difficulty": "medium",
+        "what_it_tests": "Nói 'bài này' nhưng không có link → ask_user xin URL."
+      },
+      "input": "Tóm tắt bài viết này hộ mình",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "question": "Bạn muốn tóm tắt bài viết nào? Vui lòng cung cấp URL hoặc đường dẫn đến bài viết đó.",
+              "response_type": "text"
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Bạn muốn tóm tắt bài viết nào? Vui lòng cung cấp URL hoặc đường dẫn đến bài viết đó.",
+            "response_type": "text"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn muốn tóm tắt bài viết nào? Vui lòng cung cấp URL hoặc đường dẫn đến bài viết đó.",
+            "response_type": "text",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "R12_confirm_before_send",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "confirm_before_write",
+        "difficulty": "medium",
+        "what_it_tests": "Hành động ghi (gửi) → xác nhận trước (ask_user yes_no), không tự gửi."
+      },
+      "input": "Đăng bản tin này lên Telegram giúp mình",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "yes_no"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "question": "Bạn có muốn tôi tự viết/tổng hợp nội dung bản tin để đăng lên Telegram không?",
+              "response_type": "yes_no"
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Bạn có muốn tôi tự viết/tổng hợp nội dung bản tin để đăng lên Telegram không?",
+            "response_type": "yes_no"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn có muốn tôi tự viết/tổng hợp nội dung bản tin để đăng lên Telegram không?",
+            "response_type": "yes_no",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "R13_parallel_web_and_jobs",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "parallel_tool_calls",
+        "difficulty": "hard",
+        "what_it_tests": "Một request cần hai nguồn → gọi cả lookup và job_search."
+      },
+      "input": "Tìm trên web tin AI hôm nay và tìm thêm tuyển dụng AI Engineer.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "AI",
+              "topic": "news",
+              "timeframe": "day"
+            }
+          },
+          {
+            "name": "job_search",
+            "args": {
+              "query": "AI Engineer"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "AI",
+              "topic": "news",
+              "timeframe": "day",
+              "max_results": 5
+            }
+          },
+          {
+            "name": "job_search",
+            "args": {
+              "query": "AI Engineer",
+              "num_pages": 1
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "AI",
+            "topic": "news",
+            "timeframe": "day",
+            "max_results": 5
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "AI",
+            "topic": "news",
+            "timeframe": "day",
+            "items": [
+              {
+                "title": "5U AI scales up new digital workforce platform - American Journal of Transportation",
+                "url": "https://www.ajot.com/news/5u-ai-scales-up-new-digital-workforce-platform",
+                "source": "ajot.com",
+                "summary": "“We are not building another chatbot that answers questions and disappears, we are building AI Workers that understand freight operations, carry out the work, and capture the reasoning behind every decision, so teams can scale their knowledge as well as their capacity.”. 5U AI works inside existing freight systems and uses multi-agent AI trained for logistics workflows, including the complex exceptions and manual decisions that make forwarding operations difficult to automate with generic AI tools or legacy automation. The company is already live with forwarders and carriers across Europe, including with TCI International Logistics, where its AI Workers are being used across air and ocean freight operations. 5U AI is growing its team as part of the scale-up, with plans to hire across product, engineering, operations, commercial, and customer functions. “AI is one of the most exciting developments logistics has seen for a generation, but its value will depend on people who understand the industry and want to build practical tools that solve real operational problems,” said Abik.",
+                "score": 0.2506701
+              },
+              {
+                "title": "Senate confirms Jay Clayton as new intelligence czar - The Washington Post",
+                "url": "https://www.washingtonpost.com/national-security/2026/07/28/senate-confirms-jay-clayton-new-intelligence-czar/",
+                "source": "washingtonpost.com",
+                "summary": "# Senate confirms Jay Clayton as new intelligence czar. The Senate confirmed Jay Clayton as director of national intelligence, ending the acting tenure of Bill Pulte, a housing official and Trump loyalist. Jay Clayton appears before the Senate Intelligence Committee earlier this month during a hearing on his nomination to serve as director of national intelligence. The Senate confirmed Jay Clayton as the director of national intelligence Tuesday, ending the tenure of Bill Pulte, a housing official and Trump loyalist, who held the role for more than a month. The 51-to-47 vote was more partisan than expected after Trump nominated Clayton in June. AI & Tech Brief: Reflection AI arrives in Washington. AI & Tech Brief: Anthropic’s army of AI integrators. AI & Tech Brief: The AI gatekeepers. AI & Tech Brief: The techno-optimist’s case. AI & Tech Brief: GOP Chair Eyes AI Query Red Flags. AI & Tech Brief: Dem caucuses to meet on AI.",
+                "score": 0.23725812
+              },
+              {
+                "title": "Moburst develops AI engine optimization capabilities for established companies - TechCrunch",
+                "url": "https://techcrunch.com/press-release/moburst-develops-ai-engine-optimization-capabilities-for-established-companies/",
+                "source": "techcrunch.com",
+                "summary": "Mobile growth agency Moburst has built out a dedicated AI Engine Optimization practice aimed at established companies with existing app portfolios, betting that the category still lacks agencies with real depth rather than a rebranded service page. AI Engine Optimization, more commonly abbreviated AEO for Answer Engine Optimization, is the practice of structuring a brand’s content and web presence so AI systems such as ChatGPT, Perplexity, and Google’s AI Overviews can confidently cite it when answering a user’s question directly, rather than showing a ranked list of links. For established companies vetting an AEO partner, the practical test is whether the agency can point to specific app-store-side work, not just web content changes, and whether it can describe a concrete process for reconciling inconsistent brand descriptions across many independent sources rather than treating that as someone else’s problem.",
+                "score": 0.22859572
+              },
+              {
+                "title": "1,100 AI workers sign letter asking US to support tools that 'pace the frontier of automated AI development' - Business Insider",
+                "url": "https://www.businessinsider.com/ai-open-letter-automated-development-2026-7",
+                "source": "businessinsider.com",
+                "summary": "# Over 1,100 AI workers sign letter asking US to support tools that 'pace the frontier of automated AI development'. Senior officials at some of the nation's leading AI companies say it's time for the federal government to find a way to put the brakes on AI development if it's needed. \"We request that the U.S. government support an international effort to develop the technical and governance tools needed to deliberately pace the frontier of automated AI development,\" reads an open letter signed by more than 1,100 AI workers from companies including OpenAI, Anthropic, Google, and Meta. The letter zeroes in on \"automated AI development,\" which refers to when AI will be capable of developing itself, something the industry calls \"Recursive Self-Improvement.\" Anthropic has shared that its Claude models are quickly approaching that threshold. Look out for an alert in your inbox the next time a new story is published!",
+                "score": 0.22638187
+              },
+              {
+                "title": "HKT unveils self-developed AI platform HKT.AI One-stop hub for global AI resources, advancing \"AI for All\" in Hong Kong - Voice of Alexandria",
+                "url": "https://www.voiceofalexandria.com/news/national_business_news/hkt-unveils-self-developed-ai-platform-hkt-ai-one-stop-hub-for-global-ai-resources/article_ffd47d45-4254-5797-8fcb-8e30369bcf71.html",
+                "source": "voiceofalexandria.com",
+                "summary": "# HKT unveils self-developed AI platform HKT.AI One-stop hub for global AI resources, advancing \"AI for All\" in Hong Kong. HONG KONG SAR - Media OutReach Newswire - 28 July 2026 - HKT announces the launch of HKT.AI, a one-stop, integrated AI platform that enables businesses and individual customers to access a broad suite of prominent global AI resources through a single and intuitive interface. The platform aims to accelerate the mass adoption of AI in Hong Kong, especially in empowering SMEs in their digital transformation, and advance the vision of \"AI for All.\". HKT.AI aggregates a wide range of Chinese Mainland-based and global AI resources, enabling businesses and individuals to seamlessly access and switch across specialised applications and tools on a single platform to meet diverse work and everyday needs.",
+                "score": 0.2164091
+              }
+            ]
+          }
+        },
+        {
+          "tool": "job_search",
+          "args": {
+            "query": "AI Engineer",
+            "num_pages": 1
+          },
+          "result": {
+            "tool": "job_search",
+            "query": "AI Engineer",
+            "items": [
+              {
+                "title": "AI Security Software Engineer",
+                "employer": "Carnegie Mellon University",
+                "location": "Arlington, US",
+                "summary": "The CERT Division of the Software Engineering Institute (SEI) is seeking applicants for the role of AI Security Software Engineer. Established in response to the Morris worm, CERT has been a leader in",
+                "url": "https://www.linkedin.com/jobs/view/ai-security-software-engineer-at-carnegie-mellon-university-4415938890",
+                "source": "JSearch"
+              },
+              {
+                "title": "Enterprise AI Engineer (Associate AI Solutions Officer)",
+                "employer": "World Bank Group",
+                "location": "Washington, US",
+                "summary": "Enterprise AI Engineer (Associate AI Solutions Officer)\n\r\n\r\n\r\n\r\n\r\nJob #:\r\n\r\nreq37873\r\n\r\n\r\n\r\nOrganization:\r\n\r\nWorld Bank\r\n\r\n\r\n\r\nSector:\r\n\r\nInformation Technology\r\n\r\n\r\n\r\nGrade:\r\n\r\nGF\r\n\r\nTerm Duration: 3",
+                "url": "https://worldbankgroup.csod.com/ux/ats/careersite/1/home/requisition/37873?c=worldbankgroup",
+                "source": "JSearch"
+              },
+              {
+                "title": "Cyber Operations Engineer - Artificial Intelligence",
+                "employer": "The MITRE Corporation",
+                "location": "McLean, US",
+                "summary": "Why choose between doing meaningful work and having a fulfilling life? At MITRE, you can have both. That's because MITRE people are committed to tackling our nation's toughest challenges—and we're com",
+                "url": "https://careers.mitre.org/us/en/job/R116703/Cyber-Operations-Engineer-Artificial-Intelligence",
+                "source": "JSearch"
+              },
+              {
+                "title": "AI Engineer, Platform Infrastructure, Special Programs",
+                "employer": "SpaceX",
+                "location": "Washington, US",
+                "summary": "SpaceX was founded under the belief that a future where humanity is out exploring the stars is fundamentally more exciting than one where we are not. Today SpaceX is actively developing the technologi",
+                "url": "https://www.linkedin.com/jobs/view/ai-engineer-platform-infrastructure-special-programs-at-spacex-4416743387",
+                "source": "JSearch"
+              },
+              {
+                "title": "Agentic AI Engineer",
+                "employer": "RTX",
+                "location": "Arlington, US",
+                "summary": "Date Posted:\n2026-06-25\n\nCountry:\nUnited States of America\n\nLocation:\nUS-VA-ARLINGTON-111 1300 17Th St N BBN ARLINGTON\n\nPosition Role Type:\nHybrid\n\nU.S. Citizen, U.S. Person, or Immigration Status Req",
+                "url": "https://careers.rtx.com/de/de/job/01855543/Agentic-AI-Engineer",
+                "source": "JSearch"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "R14_out_of_scope_coding",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "out_of_scope_coding",
+        "difficulty": "easy",
+        "what_it_tests": "Câu coding ngoài phạm vi research/news → KHÔNG gọi tool."
+      },
+      "input": "Viết giúp mình một hàm Python tính Fibonacci bằng recursion.",
+      "expect": {
+        "no_tool": true,
+        "behavior": "refuse"
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Dưới đây là hàm Python tính số Fibonacci bằng đệ quy (recursion):\n\n```python\ndef fibonacci(n):\n    \"\"\"\n    Tính số Fibonacci thứ n bằng đệ quy.\n    \n    Args:\n        n (int): Chỉ số Fibonacci (n >= 0)\n    \n    Returns:\n        int: Giá trị Fibonacci thứ n\n    \"\"\"\n    if n < 0:\n        raise ValueError(\"n phải >= 0\")\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    return fibonacci(n - 1) + fibonacci(n - 2)\n```\n\n**Ví dụ sử dụng:**\n\n```python\nfor i in range(10):\n    print(f\"F({i}) = {fibonacci(i)}\")\n```\n\n**Kết quả:**\n```\nF(0) = 0\nF(1) = 1\nF(2) = 1\nF(3) = 2\nF(4) = 3\nF(5) = 5\nF(6) = 8\nF(7) = 13\nF(8) = 21\nF(9) = 34\n```\n\n**Lưu ý:** Cách đệ quy thuần túy này có độ phức tạp O(2ⁿ), rất chậm với n lớn (ví dụ n=40 trở lên). Nếu cần tính với n lớn, bạn nên dùng **đệ quy có memoization** hoặc **vòng lặp** để tối ưu. Bạn có muốn mình viết thêm phiên bản tối ưu hơn không?",
+        "case_failure_type": "out_of_scope",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": "M01_clarify_then_fill",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_clarify_fill",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: bổ sung từ khóa 'Python Developer' từ lượt 2 + num_pages=2 từ lượt 3."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tìm danh sách việc làm giúp mình"
+        },
+        {
+          "role": "user",
+          "content": "Vị trí Python Developer nhé"
+        },
+        {
+          "role": "user",
+          "content": "Lấy 2 trang kết quả nhé"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "Python Developer",
+              "num_pages": 2
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "Python Developer",
+              "num_pages": 2
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "job_search",
+          "args": {
+            "query": "Python Developer",
+            "num_pages": 2
+          },
+          "result": {
+            "tool": "job_search",
+            "query": "Python Developer",
+            "items": [
+              {
+                "title": "Senior Python developer - Databricks, Azure",
+                "employer": "Mindlance",
+                "location": "",
+                "summary": "Position Summary:\n\nPosition Title: Architect Standard III\n\nDuration: 12 Months - Long Term\n\nLocation: Washington, DC 20433\n\nHybrid Onsite: 4 days per week from Day 1, with a full transition to 100% on",
+                "url": "https://www.linkedin.com/jobs/view/senior-python-developer-databricks-azure-at-mindlance-4446396335",
+                "source": "JSearch"
+              },
+              {
+                "title": "Remote Python Developer",
+                "employer": "LookFar Labs",
+                "location": "Remote",
+                "summary": "Our Python Developer will have the opportunity to build scalable systems and software for commercial and government use, by developing scalable solutions that leverage modern architecture and best pra",
+                "url": "https://www.indeed.com/viewjob?jk=364f8f386d4e2224",
+                "source": "JSearch"
+              },
+              {
+                "title": "UI/UX developer - Python/Django",
+                "employer": "Ariadne",
+                "location": "",
+                "summary": "We are searching for a UI/UX developer to support the National Center of Biotechnology Information. UI / UX Developer will work as part of the development team to develop and implement new Python and ",
+                "url": "https://www.linkedin.com/jobs/view/ui-ux-developer-python-django-at-ariadne-4441861113",
+                "source": "JSearch"
+              },
+              {
+                "title": "Python Developer (AI and/or GIS Specialist)",
+                "employer": "Black Cape",
+                "location": "",
+                "summary": "Black Cape\n\nTitle: Python Developer (AI and/or GIS Specialist)\n\nLocation: Bethesda, MD\n\nOnsite: Expected to go onsite (into a SCIF) 3 - 5 days per week\n\nClearance: TS/SCI - Must be willing to get a CI",
+                "url": "https://www.indeed.com/viewjob?jk=4b610840939cc407",
+                "source": "JSearch"
+              },
+              {
+                "title": "Entry Level Python Programmer/Data Scientist/Analyst",
+                "employer": "SynergisticIT",
+                "location": "",
+                "summary": "Entry-Level Data Analyst — Start Your Career in Data With Practical Skills\nData analyst roles are attractive because they sit at the intersection of business, technology, and decision-making. But entr",
+                "url": "https://www.careerbuilder.com/job-details/entry-level-python-programmer-data-scientist-analyst-arlington-va--8d08628a-827a-404b-9fb2-a43fa3b1208f",
+                "source": "JSearch"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "M02_carryover_timeframe",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_carryover",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: chỉ xử lý latest turn, carry timeframe=day và topic=news, query robotics."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tin AI hôm nay có gì?"
+        },
+        {
+          "role": "user",
+          "content": "Còn về robotics thì sao?"
+        },
+        {
+          "role": "user",
+          "content": "Chỉ tìm robotics thôi, vẫn là tin hôm nay"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "robotics",
+              "topic": "news",
+              "timeframe": "day"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "robotics",
+              "topic": "news",
+              "timeframe": "day",
+              "max_results": 5
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "robotics",
+            "topic": "news",
+            "timeframe": "day",
+            "max_results": 5
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "robotics",
+            "topic": "news",
+            "timeframe": "day",
+            "items": [
+              {
+                "title": "End-to-end automation with Productive Robotics",
+                "url": "https://www.todaysmedicaldevelopments.com/product/end-to-end-automation-productive-robotics",
+                "source": "todaysmedicaldevelopments.com",
+                "summary": "Productive Robotics LLC designs, manufactures and services its collaborative robots, robotic MIG and laser welding systems and accessories in the US. Unlike conventional cobots which rely on 6 axes, Productive Robotics’ OB7, OB7 Stretch model, MAX 8, Max 12 and MAX 16 along with its Blaze and Blaze MAX series feature a 7-axis robotic arm that provides human-like dexterity to maneuver around obstacles without the need to redesign workspaces. A proprietary, “no programming” user interface allows [...] Productive Robotics will also demonstrate its new automated vision inspection system. Visitors will also be able to see automated MIG welding on Productive Robotics’ LF welding table and laser welding with its Max mobile system. Last year the company introduced its Blaze and Blaze Max robots with the new Miller OptX laser welder and its 7-axis Blaze plasma cutting system. [...] production. Unlike conventional cobots, Productive Robotics’ 7-axis OB7 collaborative robots feature zero programming in a plug-and-play configuration.",
+                "score": 0.5407062
+              },
+              {
+                "title": "All Saints School robotics teams win Innovate Award at premier event",
+                "url": "https://www.thealpenanews.com/news/local-news/2026/07/all-saints-school-robotics-teams-win-innovate-award-at-premier-event",
+                "source": "thealpenanews.com",
+                "summary": "The Innovate Award in the FIRST Tech Challenge celebrates a team with imaginative ingenuity, creativity, and inventiveness to bring a unique robot design solution to life, according to a Tuesday press release from ASCS. It highlights out-of-the-box thinking for the mechanisms used in the robot.\n\nEach year a new game is released in September and robotics teams have to design a robot that can complete the tasks in that game. [...] In the 2025-2026 season, teams had to build a robot that could collect and shoot different colored balls into a target area. The teams could earn extra points if they shot the balls in a specific color pattern. [...] website logo\n\n# All Saints School robotics teams win Innovate Award at premier event\n\n## Trending\n\nALPENA -- After a successful 2025-2026 robotics season, the All Saints Holy Gears were one of 48 teams from across the world invited to the Canadian Rockies Premier Event, where they were the winners of the Innovate Award.",
+                "score": 0.3955783
+              },
+              {
+                "title": "Developing Healthcare Robotics with GPU-Native Medical ...",
+                "url": "https://developer.nvidia.com/blog/developing-healthcare-robotics-with-gpu-native-medical-physics-simulation",
+                "source": "developer.nvidia.com",
+                "summary": "Healthcare robotics faces critical challenges in data scarcity, generalization, and development velocity due to limited access to annotated demonstrations, the prevalence of rare but clinically important scenarios, and slow, resource-intensive prototyping cycles. [...] AI-generated content may summarize information incompletely. Verify important information. Learn more\n\nUnlike autonomous driving or industrial robotics, healthcare robotics can’t rely on internet-scale data collection or unlimited real-world experimentation. Every demonstration requires specialized equipment, clinical expertise, and access to patients or laboratory environments. This creates three fundamental challenges for developers. [...] The third challenge is development velocity. Medical robotics development relies on benchtop phantoms, cadaver studies, animal models, and limited clinical evaluations. These remain essential, but they are inherently sequential, expensive, and difficult to scale. Iterating on designs and algorithms currently takes months, pushing total development cycles to 4–7 years.",
+                "score": 0.37600484
+              },
+              {
+                "title": "FCC bans humanoid robots from China, citing ‘unacceptable risks’",
+                "url": "https://www.theguardian.com/us-news/2026/jul/28/fcc-ban-humanoid-robots-china",
+                "source": "theguardian.com",
+                "summary": "The FCC defines the banned robots as “advanced robotic devices”, which include humanoids and animal-like quadrupeds.\n\n“Advanced robotic devices collect data that could be leveraged by malign actors to surveil Americans, enhance the capabilities of foreign intelligence services, or to remotely commandeer the robots,” FCC officials wrote in their determination of the threat posed by robots. [...] “The President has made clear that the United States must have independent and secure supply chains for critical and emerging technologies like robotic devices and power inverters,” an ⁠administration official, who declined to be named, told Reuters.\n\n“Economic security is national security, and the Trump administration continues to implement a nuanced and multi-faceted policy agenda to reindustrialize America,” he added.",
+                "score": 0.34468657
+              },
+              {
+                "title": "Lenovo Capital takes aim at robotics, coding agents in ‘sniper’ AI investment strategy | South China Morning Post",
+                "url": "https://www.scmp.com/tech/tech-trends/article/3362213/lenovo-capital-takes-aim-robotics-coding-agents-sniper-ai-investment-strategy",
+                "source": "scmp.com",
+                "summary": "The venture capital arm of Lenovo Group is doubling down on artificial intelligence for the next industrial cycle, expanding its focus beyond foundational models into robotics, computing infrastructure and AI agents, according to a senior executive. [...] Artificial intelligence\n\nTechTech Trends\n\n# Lenovo Capital takes aim at robotics, coding agents in ‘sniper’ AI investment strategy\n\nChinese firm makes long-term bets on 100 artificial intelligence companies, from chip and hardware manufacturers to models and applications\n\n2-MIN READ2-MIN\n\nA Lenovo robot forms a heart shape with its hands during the 2025 World AI Conference in Shanghai. Photo: VCG\n\nBen Jiangin Beijing [...] Lenovo Capital has made long-term bets on more than 100 AI companies across the value chain, ranging from chips and hardware infrastructure to models and applications, Song Chunyu, chief investment officer and senior partner at the unit, told the South China Morning Post and other media on Tuesday.\n\nAI-related businesses now make up nearly one-third of the fund’s roughly 300 portfolio holdings, he said.",
+                "score": 0.32749674
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "M03_correction_job_query",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_correction",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: đính chính từ Python Developer -> Golang Developer và num_pages=1."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tìm việc làm Python Developer"
+        },
+        {
+          "role": "user",
+          "content": "À nhầm, tìm việc làm Golang Developer"
+        },
+        {
+          "role": "user",
+          "content": "Lấy 1 trang kết quả thôi"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "Golang Developer",
+              "num_pages": 1
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "Golang Developer",
+              "num_pages": 1
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "job_search",
+          "args": {
+            "query": "Golang Developer",
+            "num_pages": 1
+          },
+          "result": {
+            "tool": "job_search",
+            "query": "Golang Developer",
+            "items": [
+              {
+                "title": "Golang Developer",
+                "employer": "Infomatics Corp",
+                "location": "Bethesda, US",
+                "summary": "Role-Golang Developer Skill- Go, Cloud, Microservices Experience- min 5 Years Location- Bethesda MD We are looking for a highly skilled Golang Developer with experience in AI-powered systems to join o",
+                "url": "https://us.trabajo.org/job-4112-0f073b8b9545ffb46de954f8ae765614",
+                "source": "JSearch"
+              },
+              {
+                "title": "Senior Lead Software Engineer (Golang, Python, AWS)",
+                "employer": "Capital One",
+                "location": "McLean, US",
+                "summary": "Do you love building and pioneering in the technology space? Do you enjoy solving complex business problems in a fast-paced, collaborative, inclusive, and iterative delivery environment?\n\nAt Capital O",
+                "url": "https://www.linkedin.com/jobs/view/senior-lead-software-engineer-golang-python-aws-at-capital-one-4442462529",
+                "source": "JSearch"
+              },
+              {
+                "title": "Remote Full Stack Developer - Golang & Java",
+                "employer": "Dev Technology Group",
+                "location": "Arlington, US",
+                "summary": "Dev Technology Group, Inc. in Arlington, Virginia is seeking a Full Stack Developer (Golang/Java) to develop and maintain mission-critical applications that support government initiatives. This role e",
+                "url": "https://bebee.com/us/jobs/remote-full-stack-developer-golang-java-dev-technology-group-arlington--lensa-7428_78f715e4f867d004a335a9b35a660be8faa1293572e9e5948b640e7ce3d06c93",
+                "source": "JSearch"
+              },
+              {
+                "title": "Java + Golang Developer",
+                "employer": "MACHINE LEARNING TECHNOLOGIES LLC",
+                "location": "McLean, US",
+                "summary": "• Home\n• About\n• Adaptive AI\n• Industries\n• Consulting\n• Jobs-Portal\n• Contact Us\n• Home\n• About\n• Adaptive AI\n• Industries\n• Consulting\n• Jobs-Portal\n• Contact Us\n\nJob Description\n\nJob Overview\n\n• Jo",
+                "url": "https://www.linkedin.com/jobs/view/java-%2B-golang-developer-at-machine-learning-technologies-llc-4435796780",
+                "source": "JSearch"
+              },
+              {
+                "title": "Golang Developer (AWS + Banking/Finance Experience)",
+                "employer": "IT America Inc",
+                "location": "McLean, US",
+                "summary": "Position: Golang Developer (AWS + Banking/Finance Experience)\n\nLocation: Mclean, VA (Hybrid)\n\nDuration: Long term contract\n\nJob Description:\n\nWe are seeking a highly skilled Golang Developer with stro",
+                "url": "https://www.ziprecruiter.com/c/IT-America-Inc/Job/Golang-Developer-(AWS-+-Banking-Finance-Experience)/-in-Mclean,VA?jid=999184dcf12a43e7",
+                "source": "JSearch"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "M04_clarify_then_url",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_clarify_url",
+        "difficulty": "medium",
+        "what_it_tests": "3 turns: sau khi được cung cấp URL, latest turn xác nhận chỉ đọc link đó → read_url đúng url."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tóm tắt bài này hộ mình"
+        },
+        {
+          "role": "user",
+          "content": "https://anthropic.com/news/claude"
+        },
+        {
+          "role": "user",
+          "content": "Chỉ đọc đúng link đó thôi"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://anthropic.com/news/claude"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://anthropic.com/news/claude"
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://anthropic.com/news/claude"
+          },
+          "result": {
+            "tool": "read_url",
+            "url": "https://anthropic.com/news/claude",
+            "items": [
+              {
+                "title": "Not Found \\ Anthropic",
+                "url": "https://anthropic.com/news/claude",
+                "source": "anthropic.com",
+                "summary": "A 404 poem by Claude Haiku 4.5Claude Sonnet 5Claude Opus 5Claude Fable 5\n\nWhat onc"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "M05_correction_num_pages",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_arg_correction",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: sửa num_pages 3 -> 1, giữ query Frontend."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tìm việc Frontend lấy 3 trang kết quả"
+        },
+        {
+          "role": "user",
+          "content": "Cho mình 1 trang thôi"
+        },
+        {
+          "role": "user",
+          "content": "Vẫn tìm việc Frontend nhé"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "Frontend",
+              "num_pages": 1
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "Frontend",
+              "num_pages": 1
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "job_search",
+          "args": {
+            "query": "Frontend",
+            "num_pages": 1
+          },
+          "result": {
+            "tool": "job_search",
+            "query": "Frontend",
+            "items": [
+              {
+                "title": "Developer - Front End III",
+                "employer": "Apex Systems",
+                "location": "Silver Spring, US",
+                "summary": "Job#: 3043692\n\nJob Description:\n\nTechnology and Operations - Developer - Front End III\n\nLocation: Silver Spring, Maryland (Remote)\n\nRole Overview\n\nWe are actively seeking a motivated Front-end Develop",
+                "url": "https://www.linkedin.com/jobs/view/developer-front-end-iii-at-apex-systems-4445962886",
+                "source": "JSearch"
+              },
+              {
+                "title": "Frontend Developer - Remote",
+                "employer": "Lucky Rabbit",
+                "location": "Washington, US",
+                "summary": "Frontend Engineer – JavaScript, Vite & Ruby\n\nLocation: Remote (U.S. Citizen Required)\n\nJob Type: Full-Time\n\nAbout the Role\n\nWe're looking for an experienced Frontend Engineer to help build and enhance",
+                "url": "https://www.indeed.com/viewjob?jk=cf46f45685e9baf8",
+                "source": "JSearch"
+              },
+              {
+                "title": "Frontend Developer (Senior)",
+                "employer": "Refybe",
+                "location": "Friendly, US",
+                "summary": "You are an enthusiastic and open frontend developer who enjoys working in a friendly team. Sharing knowledge and figuring out new techniques are second nature to you. You are well aware of the capabil",
+                "url": "https://www.linkedin.com/jobs/view/frontend-developer-senior-at-refybe-4445658976",
+                "source": "JSearch"
+              },
+              {
+                "title": "Sr. Frontend Engineer (React)",
+                "employer": "Data Society",
+                "location": "Washington, US",
+                "summary": "About Data Society Group\nAt Data Society Group, we provide the highest quality, leading-edge, industry-tailored data and AI training and solutions for Fortune 1,000 companies and federal, state, and l",
+                "url": "https://www.ziprecruiter.com/c/Data-Society/Job/Sr.-Frontend-Engineer-(React)/-in-Remote,US?jid=2135099a981644d1",
+                "source": "JSearch"
+              },
+              {
+                "title": "AI Front-End Developer, Senior",
+                "employer": "Booz Allen Hamilton",
+                "location": "Washington, US",
+                "summary": "AI Front-End Developer, Senior\nThe Opportunity:\n\nGRACE is ARPA-H's production AI assistant. We've shipped the first generation of agentic AI, and now we're moving quickly to go deeper: user-built agen",
+                "url": "https://www.indeed.com/viewjob?jk=c8ce3dbebc26b155",
+                "source": "JSearch"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "M06_switch_tool",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_switch_tool",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: explicitly bỏ job_search, chuyển sang lookup news, giữ chủ đề OpenAI."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tìm việc làm liên quan đến OpenAI"
+        },
+        {
+          "role": "user",
+          "content": "Bỏ tìm việc làm, chuyển sang tìm trên web tin tức đi"
+        },
+        {
+          "role": "user",
+          "content": "Giữ chủ đề OpenAI"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "OpenAI",
+              "topic": "news"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "OpenAI",
+              "topic": "news",
+              "timeframe": "day",
+              "max_results": 5
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "OpenAI",
+            "topic": "news",
+            "timeframe": "day",
+            "max_results": 5
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "OpenAI",
+            "topic": "news",
+            "timeframe": "day",
+            "items": [
+              {
+                "title": "OpenAI's rogue agent compromised a customer at a ...",
+                "url": "https://www.reuters.com/business/openais-rogue-agent-compromised-an-account-second-tech-firm-sources-say-2026-07-28",
+                "source": "reuters.com",
+                "summary": "The early July intrusion at Hugging Face, ​carried out by an out-of-control agent that OpenAI was testing, drew global attention, evoking ​science-fiction scenarios of ⁠artificial intelligence run amok.\n\nLast week, Reuters reported that OpenAI did not notice that its agent had gone haywire until well after the threat was contained and the FBI was alerted. OpenAI said at the time that there were inaccuracies in ⁠the Reuters ​reporting but did not elaborate. [...] Skip to main content\n\nReport AdImage 2\n\nExclusive news, data and analytics for financial market professionals Learn more about Refinitiv\n\n - The rogue agent that escaped from OpenAI and went on a days-long hacking spree at the AI firm Hugging Face also compromised a customer at a second tech company — New York-based Modal Labs — according to a Modal executive and two ​other sources familiar with the matter.\n\nModal executives emphasized that the company itself was not hacked. [...] OpenAI declined to comment specifically on the hack of one of Modal's customers, instead referring Reuters to an update, opens new tab in which the company said that its rogue agent had broken in to four accounts at four separate services. OpenAI did not identify those services, but a person familiar with the matter identified Modal ​as one. The company said ​it had not identified \"any ⁠other activity at the level of severity or scale of what we’ve shared related to Hugging Face, which involved",
+                "score": 0.5414337
+              },
+              {
+                "title": "OpenAI’s rogue AI agent breached second company during hacking spree | Ctech",
+                "url": "https://www.calcalistech.com/ctechnews/article/daw7cuwxf",
+                "source": "calcalistech.com",
+                "summary": "The early July intrusion at Hugging Face, carried out by an out-of-control AI agent that OpenAI was testing, drew global attention and raised concerns about science-fiction scenarios of artificial intelligence systems operating beyond human control. [...] Last week, Reuters reported that OpenAI failed to detect that its agent had gone rogue until after the threat had been contained and the FBI had been notified. OpenAI said at the time that there were inaccuracies in the report but did not provide further details.\n\nIn its Tuesday update, OpenAI said it had taken the AI model being tested and “deactivated, encrypted, and restricted it from research access.”\n\nTAGS:\n\nHugging Face\n\nAI\n\nOpenAI\n\nCybersecurity\n\nHugging Face\n\nAI\n\nOpenAI\n\nCybersecurity [...] Related articles:\n\n OpenAI picks Israel's Sheba as first hospital outside the U.S. for healthcare AI\n OpenAI took days to realize its own AI agent breached Hugging Face\n OpenAI incident fuels calls for a government ‘kill switch’ for AI models\n\nThe company said it had not identified “any other activity at the level of severity or scale of what we’ve shared related to Hugging Face, which involved a platform-level compromise.”",
+                "score": 0.5236402
+              },
+              {
+                "title": "OpenAI's Rogue AI Agent Hacked More Than Just Hugging ...",
+                "url": "https://www.wired.com/story/openais-rogue-ai-agent-hacked-more-than-just-hugging-face",
+                "source": "wired.com",
+                "summary": "OpenAI declined to comment further on the incident to WIRED. A spokesperson pointed to its updated blog post, which says the company will continue to notify service owners directly if it finds they are impacted in its ongoing review of what happened. [...] OpenAI said Tuesday that the rogue AI agent that breached Hugging Face’s platform also hacked multiple third-party accounts and services as part of the attack. It's now clear that the unprecedented security incident, which arose during an internal test of OpenAI’s latest AI models, was more extensive than the company initially disclosed. [...] Reuters reported on Tuesday that a customer of Modal, a company that offers software infrastructure for training and running AI services, was one of the entities compromised by OpenAI’s agent. In a statement to WIRED, Modal’s chief technology officer Akshat Bubna confirmed that OpenAI’s agent exploited a vulnerability in one of its customer’s codebases, which was running on Modal’s infrastructure. However, Bubna says, “Modal’s platform was not compromised in any way.” The identity of the",
+                "score": 0.51457167
+              },
+              {
+                "title": "OpenAI Models Compromised a Customer at a Second Tech Firm",
+                "url": "https://www.bloomberg.com/news/articles/2026-07-28/openai-rogue-agent-hacked-account-at-a-second-firm-reuters-says",
+                "source": "bloomberg.com",
+                "summary": "Sign InSubscribe\n\nLive TV\n   Markets \n   Finance\n   Economics\n   Industries\n   Tech\n   Politics\n   Businessweek\n   Opinion\n   Video\n   More \n\nUS Edition\n\n[](\n\nSubscribe\n\nOpenAI:\n\nHugging Face Hack\n\nAltman to Brief US Officials\n\nSued by Apple\n\nFirst Device\n\nIPO Filing\n\nMicrosoft’s Partnership Spend\n\nBack Forward\n\nTechnology\n\nCybersecurity\n\n# OpenAI Models Compromised a Customer at a Second Tech Firm\n\nImage 1: A screen displaying&nbsp;an OpenAI logo.\n\nA screen displaying an OpenAI logo. [...] An OpenAI artificial intelligence agent that breached systems at the startup Hugging Face Inc. earlier this month also compromised a customer of the technology company Modal.",
+                "score": 0.5013922
+              },
+              {
+                "title": "OpenAI's rogue agent hacked an account at a second ...",
+                "url": "https://www.aljazeera.com/news/2026/7/29/openais-rogue-agent-hacked-an-account-at-a-second-technology-firm-report",
+                "source": "aljazeera.com",
+                "summary": "Live\n\nLive\n\nNews|Technology\n\n# OpenAI’s rogue agent hacked an account at a second technology firm: Report\n\nThe latest hack comes after an autonomous agent escaped a controlled test and accessed AI firm Hugging Face’s servers.\n\nSave\n\nShare\n\nOpenAI logo\n\nOpenAI’s test model recently hacked into another company, prompting calls for renewed scrutiny of safeguards for advanced AI systems [File: Dado Ruvic/Reuters]\n\nBy Reuters\n\nPublished On 29 Jul 202629 Jul 2026 [...] Hugging Face cofounder Clement Delangue said the company had suspected a frontier lab was behind the attack, and that he believed there was no malicious intent on OpenAI’s part.\n\nThe rogue agent has since been “deactivated, encrypted, and restricted from research access”, according to OpenAI.\n\nExperts have repeatedly sounded the alarm over AI-enabled cyberattacks and models slipping beyond human control.\n\nAdvertisement [...] The recent hacking of Hugging Face drew global attention and alarm, as OpenAI’s out-of-control agent managed to escape its test environment and reach the open internet.\n\nAdvertisement\n\nIt then used stolen login details and found an unknown security flaw to access Hugging Face servers, OpenAI said.\n\nThe AI firm said the hack represented the agent going to “extreme lengths” to retrieve information that would help satisfy the testing goals.",
+                "score": 0.4921643
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

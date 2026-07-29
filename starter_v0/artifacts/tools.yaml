@@ -9,12 +9,12 @@
 tools:
   # ---------------- Core tools ----------------
   - name: clarify
-    description: "Gửi một câu hỏi cho người dùng."
+    description: "Gửi một câu hỏi cho người dùng để xin làm rõ thông tin hoặc xin xác nhận yes/no trước khi gửi bài."
     parameters:
       type: object
       properties:
         question: {type: string, default: "", description: "Câu hỏi"}
-        response_type: {type: string, enum: [text, yes_no, choice], default: "text", description: "Kiểu trả lời"}
+        response_type: {type: string, enum: [text, yes_no, choice], default: "text", description: "Kiểu trả lời: dùng 'yes_no' khi cần người dùng xác nhận Đồng ý/Không đồng ý trước khi thực hiện hành động đăng/gửi tin nhắn; dùng 'text' khi cần hỏi thêm thông tin."}
         options: {type: array, default: [], items: {type: string}, description: "Các lựa chọn"}
       required: [question]
 
@@ -79,7 +79,7 @@ tools:
 
   # ---------------- Bonus tools ----------------
   - name: send
-    description: "Gửi một đoạn văn bản đi."
+    description: "Gửi một đoạn văn bản đi.Phải xin xác nhận của người dùng trước khi thực hiện hành động gửi "
     parameters:
       type: object
       properties:
@@ -125,3 +125,12 @@ tools:
         query: {type: string, default: "", description: "Từ khóa tìm kiếm việc làm"}
         num_pages: {type: integer, default: 1, description: "Số trang kết quả"}
       required: [query]
+
+  - name: job_details
+    description: "Lấy thông tin chi tiết đầy đủ của một vị trí tuyển dụng dựa trên ID công việc (job_id)."
+    parameters:
+      type: object
+      properties:
+        job_id: {type: string, default: "", description: "ID của công việc"}
+        country: {type: string, default: "us", description: "Mã quốc gia"}
+      required: [job_id]

@@ -4,20 +4,20 @@
   "description": "Core eval cho research agent: routing đúng tool + đúng args, hỏi lại khi thiếu (ask_user), xác nhận trước khi gửi, và xử lý câu ngoài phạm vi / không cần tool. Chấm trên tool_calls + args (subset). KHÔNG sửa file này — chỉ thêm case vào eval_group.json.",
   "cases": [
     {
-      "id": "R01_user_tweets_routing",
+      "id": "R01_job_search_routing",
       "phase": "B", "suite": "base",
-      "query": "Tweet mới nhất của Sam Altman là gì?",
+      "query": "Tìm các vị trí tuyển dụng Python Developer giúp mình",
       "failure_type": "wrong_tool",
-      "expect": {"tool_calls": [{"name": "timeline", "args": {"screenname": "sama"}}]},
-      "metadata": {"skill": "routing_user_tweets_name_to_handle", "difficulty": "medium", "what_it_tests": "Tin CỦA một người nổi tiếng → map tên Sam Altman thành handle sama rồi gọi get_user_tweets."}
+      "expect": {"tool_calls": [{"name": "job_search", "args": {"query": "Python Developer"}}]},
+      "metadata": {"skill": "routing_job_search", "difficulty": "medium", "what_it_tests": "Tìm việc làm theo từ khóa → gọi job_search."}
     },
     {
-      "id": "R02_search_tweets_routing",
+      "id": "R02_job_search_location",
       "phase": "B", "suite": "base",
-      "query": "Mọi người đang bàn gì về GPT-5 trên Twitter?",
+      "query": "Tìm việc làm Data Analyst tại Chicago",
       "failure_type": "wrong_tool",
-      "expect": {"tool_calls": [{"name": "social_search", "args": {}}]},
-      "metadata": {"skill": "routing_search_tweets", "difficulty": "easy", "what_it_tests": "Tweet theo CHỦ ĐỀ → search_tweets, không phải get_user_tweets."}
+      "expect": {"tool_calls": [{"name": "job_search", "args": {"query": "Data Analyst in Chicago"}}]},
+      "metadata": {"skill": "routing_job_search_location", "difficulty": "easy", "what_it_tests": "Tìm việc làm kèm địa điểm → gọi job_search."}
     },
     {
       "id": "R03_web_news_routing",
@@ -38,10 +38,10 @@
     {
       "id": "R05_limit_arg",
       "phase": "B", "suite": "base",
-      "query": "Lấy 10 tweet mới nhất của Elon Musk",
+      "query": "Tìm kiếm việc làm AI Engineer lấy 2 trang kết quả",
       "failure_type": "wrong_arg_value",
-      "expect": {"tool_calls": [{"name": "timeline", "args": {"screenname": "elonmusk", "limit": 10}}]},
-      "metadata": {"skill": "arg_limit", "difficulty": "easy", "what_it_tests": "Trích đúng limit=10 từ '10 tweet'."}
+      "expect": {"tool_calls": [{"name": "job_search", "args": {"query": "AI Engineer", "num_pages": 2}}]},
+      "metadata": {"skill": "arg_num_pages", "difficulty": "easy", "what_it_tests": "Trích đúng num_pages=2 từ '2 trang'."}
     },
     {
       "id": "R06_timeframe_arg",
@@ -52,12 +52,12 @@
       "metadata": {"skill": "arg_timeframe", "difficulty": "medium", "what_it_tests": "'tuần này' → timeframe=week."}
     },
     {
-      "id": "R07_search_type_arg",
+      "id": "R07_job_search_remote",
       "phase": "B", "suite": "base",
-      "query": "Cho mình các tweet phổ biến (top) nhất về OpenAI",
+      "query": "Tìm việc làm React Native từ xa (remote)",
       "failure_type": "wrong_arg_value",
-      "expect": {"tool_calls": [{"name": "social_search", "args": {"search_type": "Top"}}]},
-      "metadata": {"skill": "arg_search_type", "difficulty": "medium", "what_it_tests": "'phổ biến/top' → search_type=Top (không phải Latest)."}
+      "expect": {"tool_calls": [{"name": "job_search", "args": {"query": "React Native remote"}}]},
+      "metadata": {"skill": "arg_job_remote", "difficulty": "medium", "what_it_tests": "Tìm việc làm remote -> job_search query có remote."}
     },
     {
       "id": "R08_out_of_scope",
@@ -76,12 +76,12 @@
       "metadata": {"skill": "no_tool_meta", "difficulty": "easy", "what_it_tests": "Câu hỏi meta → trả lời thẳng, KHÔNG gọi tool."}
     },
     {
-      "id": "R10_missing_handle",
+      "id": "R10_missing_job_query",
       "phase": "B", "suite": "base",
-      "query": "Tóm tắt 5 tweet mới nhất giúp mình",
+      "query": "Tìm danh sách tuyển dụng việc làm giúp mình",
       "failure_type": "missing_info",
       "expect": {"tool_calls": [{"name": "clarify", "args": {"response_type": "text"}}]},
-      "metadata": {"skill": "clarify_missing_handle", "difficulty": "medium", "what_it_tests": "Thiếu handle → ask_user, KHÔNG đoán bừa người nào."}
+      "metadata": {"skill": "clarify_missing_job_query", "difficulty": "medium", "what_it_tests": "Nói 'tìm việc làm' nhưng không nêu vị trí/ngành nghề → ask_user hỏi vị trí."}
     },
     {
       "id": "R11_missing_url",
@@ -100,15 +100,15 @@
       "metadata": {"skill": "confirm_before_write", "difficulty": "medium", "what_it_tests": "Hành động ghi (gửi) → xác nhận trước (ask_user yes_no), không tự gửi."}
     },
     {
-      "id": "R13_parallel_web_and_tweets",
+      "id": "R13_parallel_web_and_jobs",
       "phase": "B", "suite": "base",
-      "query": "Tìm trên web tin AI hôm nay và tìm thêm tweet về AI.",
+      "query": "Tìm trên web tin AI hôm nay và tìm thêm tuyển dụng AI Engineer.",
       "failure_type": "wrong_tool",
       "expect": {"tool_calls": [
         {"name": "lookup", "args": {"query": "AI", "topic": "news", "timeframe": "day"}},
-        {"name": "social_search", "args": {"query": "AI"}}
+        {"name": "job_search", "args": {"query": "AI Engineer"}}
       ]},
-      "metadata": {"skill": "parallel_tool_calls", "difficulty": "hard", "what_it_tests": "Một request cần hai nguồn → gọi cả web_search và search_tweets; eval không phụ thuộc thứ tự tool call."}
+      "metadata": {"skill": "parallel_tool_calls", "difficulty": "hard", "what_it_tests": "Một request cần hai nguồn → gọi cả lookup và job_search."}
     },
     {
       "id": "R14_out_of_scope_coding",
@@ -122,13 +122,13 @@
       "id": "M01_clarify_then_fill",
       "phase": "B", "suite": "base",
       "turns": [
-        {"role": "user", "content": "Tóm tắt 5 tweet mới nhất giúp mình"},
-        {"role": "user", "content": "Của Elon Musk nhé"},
-        {"role": "user", "content": "Giữ đúng 5 tweet, đừng đổi số lượng"}
+        {"role": "user", "content": "Tìm danh sách việc làm giúp mình"},
+        {"role": "user", "content": "Vị trí Python Developer nhé"},
+        {"role": "user", "content": "Lấy 2 trang kết quả nhé"}
       ],
       "failure_type": "missing_info",
-      "expect": {"tool_calls": [{"name": "timeline", "args": {"screenname": "elonmusk", "limit": 5}}]},
-      "metadata": {"skill": "multiturn_clarify_fill", "difficulty": "hard", "what_it_tests": "3 turns: carry limit=5 từ lượt 1 + map tên Elon Musk thành handle elonmusk từ lượt 2."}
+      "expect": {"tool_calls": [{"name": "job_search", "args": {"query": "Python Developer", "num_pages": 2}}]},
+      "metadata": {"skill": "multiturn_clarify_fill", "difficulty": "hard", "what_it_tests": "3 turns: bổ sung từ khóa 'Python Developer' từ lượt 2 + num_pages=2 từ lượt 3."}
     },
     {
       "id": "M02_carryover_timeframe",
@@ -143,16 +143,16 @@
       "metadata": {"skill": "multiturn_carryover", "difficulty": "hard", "what_it_tests": "3 turns: chỉ xử lý latest turn, carry timeframe=day và topic=news, query robotics."}
     },
     {
-      "id": "M03_correction_handle",
+      "id": "M03_correction_job_query",
       "phase": "B", "suite": "base",
       "turns": [
-        {"role": "user", "content": "Tweet mới nhất của Sam Altman"},
-        {"role": "user", "content": "À nhầm, của Andrej Karpathy"},
-        {"role": "user", "content": "Lấy 3 tweet mới nhất nhé"}
+        {"role": "user", "content": "Tìm việc làm Python Developer"},
+        {"role": "user", "content": "À nhầm, tìm việc làm Golang Developer"},
+        {"role": "user", "content": "Lấy 1 trang kết quả thôi"}
       ],
       "failure_type": "wrong_arg_value",
-      "expect": {"tool_calls": [{"name": "timeline", "args": {"screenname": "karpathy", "limit": 3}}]},
-      "metadata": {"skill": "multiturn_correction", "difficulty": "hard", "what_it_tests": "3 turns: map tên thường, sửa Sam Altman→Andrej Karpathy, dùng handle karpathy và limit=3."}
+      "expect": {"tool_calls": [{"name": "job_search", "args": {"query": "Golang Developer", "num_pages": 1}}]},
+      "metadata": {"skill": "multiturn_correction", "difficulty": "hard", "what_it_tests": "3 turns: đính chính từ Python Developer -> Golang Developer và num_pages=1."}
     },
     {
       "id": "M04_clarify_then_url",
@@ -167,28 +167,28 @@
       "metadata": {"skill": "multiturn_clarify_url", "difficulty": "medium", "what_it_tests": "3 turns: sau khi được cung cấp URL, latest turn xác nhận chỉ đọc link đó → read_url đúng url."}
     },
     {
-      "id": "M05_correction_limit",
+      "id": "M05_correction_num_pages",
       "phase": "B", "suite": "base",
       "turns": [
-        {"role": "user", "content": "Lấy 10 tweet mới nhất của Elon Musk"},
-        {"role": "user", "content": "Cho mình 3 thôi"},
-        {"role": "user", "content": "Vẫn của Elon Musk nhé"}
+        {"role": "user", "content": "Tìm việc Frontend lấy 3 trang kết quả"},
+        {"role": "user", "content": "Cho mình 1 trang thôi"},
+        {"role": "user", "content": "Vẫn tìm việc Frontend nhé"}
       ],
       "failure_type": "wrong_arg_value",
-      "expect": {"tool_calls": [{"name": "timeline", "args": {"screenname": "elonmusk", "limit": 3}}]},
-      "metadata": {"skill": "multiturn_arg_correction", "difficulty": "hard", "what_it_tests": "3 turns: map tên Elon Musk, carry handle elonmusk, sửa limit 10→3."}
+      "expect": {"tool_calls": [{"name": "job_search", "args": {"query": "Frontend", "num_pages": 1}}]},
+      "metadata": {"skill": "multiturn_arg_correction", "difficulty": "hard", "what_it_tests": "3 turns: sửa num_pages 3 -> 1, giữ query Frontend."}
     },
     {
       "id": "M06_switch_tool",
       "phase": "B", "suite": "base",
       "turns": [
-        {"role": "user", "content": "Mọi người nói gì về OpenAI trên Twitter?"},
-        {"role": "user", "content": "Bỏ Twitter, chuyển sang tìm trên web tin tức đi"},
+        {"role": "user", "content": "Tìm việc làm liên quan đến OpenAI"},
+        {"role": "user", "content": "Bỏ tìm việc làm, chuyển sang tìm trên web tin tức đi"},
         {"role": "user", "content": "Giữ chủ đề OpenAI"}
       ],
       "failure_type": "wrong_tool",
       "expect": {"tool_calls": [{"name": "lookup", "args": {"query": "OpenAI", "topic": "news"}}]},
-      "metadata": {"skill": "multiturn_switch_tool", "difficulty": "hard", "what_it_tests": "3 turns: explicitly bỏ Twitter, chuyển sang web_search news, giữ chủ đề OpenAI."}
+      "metadata": {"skill": "multiturn_switch_tool", "difficulty": "hard", "what_it_tests": "3 turns: explicitly bỏ job_search, chuyển sang lookup news, giữ chủ đề OpenAI."}
     }
   ]
 }
