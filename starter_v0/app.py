@@ -28,9 +28,11 @@ SUGGESTION_TEMPLATES = [
 
 
 def load_system_prompt() -> str:
+    today_str = datetime.now().strftime("%Y-%m-%d")
     if SYSTEM_PROMPT_PATH.exists():
-        return SYSTEM_PROMPT_PATH.read_text(encoding="utf-8").strip()
-    return "You are a precise research assistant with access to tools."
+        base_prompt = SYSTEM_PROMPT_PATH.read_text(encoding="utf-8").strip()
+        return f"Today's Date: {today_str}\n\n{base_prompt}"
+    return f"Today's Date: {today_str}\n\nYou are a precise research assistant with access to tools."
 
 
 def render_process(rounds: list[dict[str, Any]], tool_events: list[dict[str, Any]]) -> None:

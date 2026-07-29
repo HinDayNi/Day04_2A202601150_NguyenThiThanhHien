@@ -272,7 +272,9 @@ def main() -> None:
     parser.add_argument("--runs-dir", type=Path, default=ROOT / "runs")
     args = parser.parse_args()
 
-    system_prompt = args.system_prompt.read_text(encoding="utf-8")
+    today_str = datetime.now().strftime("%Y-%m-%d")
+    raw_system_prompt = args.system_prompt.read_text(encoding="utf-8")
+    system_prompt = f"Today's Date: {today_str}\n\n{raw_system_prompt}"
     artifact_version = build_artifact_version(args.version, args.system_prompt, args.tools)
     provider = make_provider(args.provider)
     selected_model = args.model or getattr(provider, "default_model", None)

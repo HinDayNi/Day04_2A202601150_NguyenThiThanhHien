@@ -161,7 +161,9 @@ def main() -> None:
     parser.add_argument("--max-tool-rounds", type=int, default=4)
     args = parser.parse_args()
 
-    system_prompt = args.system_prompt.read_text(encoding="utf-8")
+    today_str = datetime.now().strftime("%Y-%m-%d")
+    raw_system_prompt = args.system_prompt.read_text(encoding="utf-8")
+    system_prompt = f"Today's Date: {today_str}\n\n{raw_system_prompt}"
     tool_declarations = load_tool_declarations(args.tools)
     openai_tools = to_openai_tools(tool_declarations)
     provider = make_provider(args.provider)
