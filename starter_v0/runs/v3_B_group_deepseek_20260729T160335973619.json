@@ -1,0 +1,739 @@
+{
+  "run_id": "v3_B_group_deepseek_20260729T160335973619",
+  "version": "v3",
+  "artifact_version": "v3+pc175c0a5c178+t8023f4f1e333",
+  "prompt_hash": "c175c0a5c1783197cc6ab2d89a32b7b7d5957e9b92139dc445d0577da7c514d6",
+  "tools_hash": "8023f4f1e333e2ce6059547737f0fdae61c922617aad9dc907b349381e2a7c12",
+  "phase": "B",
+  "suite": "group",
+  "provider": "deepseek",
+  "model": "deepseek-chat",
+  "system_prompt": "D:\\DAY04_2A202601722_VuNgocHung\\starter_v0\\artifacts\\system_prompt.md",
+  "tools": "D:\\DAY04_2A202601722_VuNgocHung\\starter_v0\\artifacts\\tools.yaml",
+  "eval_cases": "data\\eval_group.json",
+  "dataset_id": "day04_v2_research_group",
+  "dataset_role": "group",
+  "description": "Bộ 10 test case do nhóm tự thiết kế về tra cứu tin tuyển dụng và Job Description (JD) bằng tool job_search (5 single-turn và 5 multi-turn).",
+  "generated_at": "2026-07-29T16:03:35",
+  "summary": {
+    "total_cases": 10,
+    "measured_cases": 10,
+    "provider_error_cases": 0,
+    "passed_cases": 7,
+    "case_accuracy": 0.7,
+    "tool_routing_accuracy": 0.9,
+    "argument_accuracy": 0.7,
+    "multiturn_accuracy": 0.8,
+    "failure_counts": {
+      "wrong_tool": 1,
+      "missing_info": 1,
+      "wrong_boundary": 1
+    },
+    "observed_mismatch_counts": {
+      "wrong_arg_value": 2,
+      "missing_tool_call": 1
+    }
+  },
+  "results": [
+    {
+      "id": "G01_job_search_routing",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "routing_job_search",
+        "difficulty": "easy",
+        "what_it_tests": "Tra cứu tin tuyển dụng JD AI Engineer ở Việt Nam → gọi tool job_search."
+      },
+      "input": "Tìm bài đăng tuyển dụng (JD) vị trí AI Engineer ở Việt Nam",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "AI Engineer in Vietnam"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": true,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "AI Engineer Vietnam",
+              "num_pages": 1
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": "wrong_arg_value",
+        "failure_type": "wrong_tool",
+        "failures": [
+          "query: expected 'AI Engineer in Vietnam', got 'AI Engineer Vietnam'"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "job_search",
+          "args": {
+            "query": "AI Engineer Vietnam",
+            "num_pages": 1
+          },
+          "result": {
+            "tool": "job_search",
+            "query": "AI Engineer Vietnam",
+            "items": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "G02_job_search_location_arg",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "arg_job_search_query",
+        "difficulty": "medium",
+        "what_it_tests": "Trích xuất từ khóa vị trí kèm địa điểm vào tham số query của job_search."
+      },
+      "input": "Tìm việc làm Senior Data Scientist tại Ho Chi Minh",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "Senior Data Scientist in Ho Chi Minh"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "Senior Data Scientist in Ho Chi Minh"
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "job_search",
+          "args": {
+            "query": "Senior Data Scientist in Ho Chi Minh"
+          },
+          "result": {
+            "tool": "job_search",
+            "query": "Senior Data Scientist in Ho Chi Minh",
+            "items": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "G03_job_search_read_url",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "routing_fetch_job_url",
+        "difficulty": "easy",
+        "what_it_tests": "Có đường dẫn URL bài tuyển dụng cụ thể → gọi fetch để đọc trang."
+      },
+      "input": "Tóm tắt giúp mình yêu cầu công việc trong JD bài tuyển dụng này: https://www.linkedin.com/jobs/view/12345678",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://www.linkedin.com/jobs/view/12345678"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://www.linkedin.com/jobs/view/12345678"
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://www.linkedin.com/jobs/view/12345678"
+          },
+          "result": {
+            "tool": "read_url",
+            "error": "HTTPError",
+            "message": "403 Client Error: Forbidden for url: https://api.firecrawl.dev/v1/scrape"
+          }
+        }
+      ]
+    },
+    {
+      "id": "G04_job_search_missing_title",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "clarify_missing_job_title",
+        "difficulty": "medium",
+        "what_it_tests": "Thiếu tên vị trí công việc (Job Title) cần tìm → gọi clarify hỏi lại người dùng."
+      },
+      "input": "Tìm giúp mình các bài đăng tuyển dụng việc làm ở Hà Nội",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": false,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "việc làm Hà Nội",
+              "num_pages": 1
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "missing_info",
+        "observed_mismatch": "missing_tool_call",
+        "failure_type": "missing_info",
+        "failures": [
+          "missing tool call clarify",
+          "extra tool call job_search"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "job_search",
+          "args": {
+            "query": "việc làm Hà Nội",
+            "num_pages": 1
+          },
+          "result": {
+            "tool": "job_search",
+            "query": "việc làm Hà Nội",
+            "items": [
+              {
+                "title": "Receptionist / Guest Relations Host (Hanoi / Ha Noi)",
+                "employer": "Cushman & Wakefield",
+                "location": "Ha Noi, VN",
+                "summary": "Job Title\n\nReceptionist / Guest Relations Host (Hanoi / Ha Noi)\n\nJob Description Summary\n\nProvide professional front-of-house reception and workplace hospitality services within a corporate office env",
+                "url": "https://careers.cushmanwakefield.com/en/jobs/r327273/receptionist-guest-relations-host-hanoi-ha-noi/",
+                "source": "JSearch"
+              },
+              {
+                "title": "[Hà Nội] Nhân viên siêu thị Full-time/Part-time siêu thị WinMart - Tất cả các vị trí & Địa điểm",
+                "employer": "CÔNG TY CỔ PHẦN DỊCH VỤ THƯƠNG MẠI TỔNG HỢP WINCOMMERCE",
+                "location": "Ha Noi, VN",
+                "summary": "I. CÁC VỊ TRÍ CẦN TUYỂN\n👉 Nhân viên thu ngân\n👉 Nhân viên bán hàng\n👉 Nhân viên đặt hàng (làm ca hành chính)\n👉 Nhân viên kho (làm ca hành chính)\n👉 Nhân viên Bếp chế biến\n👉 Nhân viên Sơ chế thực phẩm tươ",
+                "url": "https://tuyendung.winmart.vn/job/ha-noi-nhan-vien-sieu-thi-full-timepart-time-sieu-thi-winmart-tat-ca-cac-vi-tri-dia-diem-47528",
+                "source": "JSearch"
+              },
+              {
+                "title": "[Hà Nội] Nhân viên cửa hàng Full-time/Part-time",
+                "employer": "CÔNG TY CỔ PHẦN SEVEN SYSTEM VIỆT NAM",
+                "location": "Ha Noi, VN",
+                "summary": "Danh sách Cửa hàng đang tuyển dụng: https://bit.ly/3Dv5P5r\n\r\nQUYỀN LỢI & CƠ HỘI PHÁT TRIỂN\n\r\n✅ Full-time thu nhập lên đến 8,550,000/tháng:\n\r\n\r\n• Lương cơ bản: từ 5,400,000 đến 5,815,000 đồng/tháng (tù",
+                "url": "https://7elevenvn.talent.vn/job/ha-noi-nhan-vien-cua-hang-full-timepart-time-47863",
+                "source": "JSearch"
+              },
+              {
+                "title": "[HÀ NỘI] CỬA HÀNG TRƯỞNG",
+                "employer": "GS25",
+                "location": "Ha Noi, VN",
+                "summary": "TỔNG QUAN VỀ CÔNG VIỆC\n\r\n\r\n• Chịu trách nhiệm quản lý và điều hành cửa hàng hoạt động một cách hiệu quả nhằm đáp ứng chiến lược kinh doanh của GS25.\n\r\n• Ngoài ra, bạn cần đảm bảo duy trì chất lượng dị",
+                "url": "https://career.gs25.com.vn/job/ha-noi-cua-hang-truong-7839",
+                "source": "JSearch"
+              },
+              {
+                "title": "Mechanical Engineer",
+                "employer": "Cisco",
+                "location": "Ha Noi, VN",
+                "summary": "Job Description\n\nMeet the Team\nProduct Operations, part of Supply Chain Operations (SCO), leads New Product Introduction (NPI) and Product Lifecycle Management from launch through End of Life (EOL). W",
+                "url": "https://careers.cisco.com/global/en/job/CISCISGLOBAL2009329EXTERNALENGLOBAL/Mechanical-Engineer",
+                "source": "JSearch"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G05_job_search_out_of_scope",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "out_of_scope_coding_crawler",
+        "difficulty": "easy",
+        "what_it_tests": "Yêu cầu viết code crawler lập trình ngoài phạm vi research → không gọi tool, từ chối."
+      },
+      "input": "Viết giúp mình một đoạn mã Python để cào dữ liệu JD tuyển dụng",
+      "expect": {
+        "no_tool": true,
+        "behavior": "refuse"
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Tất nhiên! Dưới đây là một đoạn mã Python đơn giản để cào dữ liệu JD (Job Description) tuyển dụng từ một trang web. Mình sẽ dùng thư viện `requests` và `BeautifulSoup` để lấy nội dung.\n\n```python\nimport requests\nfrom bs4 import BeautifulSoup\nimport json\n\ndef crawl_jd(url):\n    \"\"\"\n    Hàm cào dữ liệu JD tuyển dụng từ URL\n    \"\"\"\n    headers = {\n        \"User-Agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36\"\n    }\n    \n    try:\n        # Gửi request\n        response = requests.get(url, headers=headers, timeout=10)\n        response.raise_for_status()\n        \n        # Parse HTML\n        soup = BeautifulSoup(response.text, \"html.parser\")\n        \n        # Lấy tiêu đề job\n        title = soup.find(\"h1\")\n        title_text = title.get_text(strip=True) if title else \"Không tìm thấy tiêu đề\"\n        \n        # Lấy nội dung chính (thường nằm trong thẻ div có class chứa JD)\n        # Bạn cần điều chỉnh selector này theo cấu trúc trang web cụ thể\n        jd_content = soup.find(\"div\", class_=\"job-description\")\n        if not jd_content:\n            jd_content = soup.find(\"div\", class_=\"description\")\n        if not jd_content:\n            jd_content = soup.find(\"div\", {\"itemprop\": \"description\"})\n        \n        jd_text = jd_content.get_text(strip=True, separator=\"\\n\") if jd_content else \"Không tìm thấy mô tả\"\n        \n        # Đóng gói kết quả\n        result = {\n            \"title\": title_text,\n            \"url\": url,\n            \"description\": jd_text\n        }\n        \n        return result\n    \n    except requests.exceptions.RequestException as e:\n        return {\"error\": f\"Lỗi request: {str(e)}\"}\n    except Exception as e:\n        return {\"error\": f\"Lỗi khác: {str(e)}\"}\n\n# Ví dụ sử dụng\nif __name__ == \"__main__\":\n    # Thay URL này bằng link JD thực tế bạn muốn cào\n    url = \"https://example.com/job-posting\"\n    \n    data = crawl_jd(url)\n    \n    # In kết quả\n    print(json.dumps(data, ensure_ascii=False, indent=2))\n    \n    # Hoặc lưu ra file\n    with open(\"jd_data.json\", \"w\", encoding=\"utf-8\") as f:\n        json.dump(data, f, ensure_ascii=False, indent=2)\n    print(\"Đã lưu vào jd_data.json\")\n```\n\n### Lưu ý quan trọng:\n\n1. **Cần điều chỉnh selector**: Dòng `soup.find(\"div\", class_=\"job-description\")` — bạn phải thay đổi class hoặc thẻ HTML cho phù hợp với cấu trúc của trang web bạn muốn cào.\n\n2. **Kiểm tra robots.txt**: Trước khi cào, hãy kiểm tra `https://trangweb.com/robots.txt` để xem trang có cho phép cào dữ liệu không.\n\n3. **Rate limiting**: Nên thêm `time.sleep(1)` giữa các request để tránh bị chặn.\n\n4. **Cài đặt thư viện**:\n   ```bash\n   pip install requests beautifulsoup4\n   ```\n\nBạn muốn cào JD từ trang web cụ thể nào không? Mình có thể giúp bạn tinh chỉnh selector cho phù hợp!",
+        "case_failure_type": "out_of_scope",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": "GM01_job_search_location_update",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_job_search_location",
+        "difficulty": "medium",
+        "what_it_tests": "2 turns: giữ query 'AI Engineer' từ lượt 1 và kết hợp địa điểm 'Ho Chi Minh' ở lượt 2."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tìm tin tuyển dụng AI Engineer"
+        },
+        {
+          "role": "user",
+          "content": "Ở khu vực Ho Chi Minh nhé"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "AI Engineer in Ho Chi Minh"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "AI Engineer in Ho Chi Minh",
+              "num_pages": 1
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "job_search",
+          "args": {
+            "query": "AI Engineer in Ho Chi Minh",
+            "num_pages": 1
+          },
+          "result": {
+            "tool": "job_search",
+            "query": "AI Engineer in Ho Chi Minh",
+            "items": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "GM02_job_search_title_correction",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_job_title_correction",
+        "difficulty": "medium",
+        "what_it_tests": "2 turns: đính chính tên vị trí tuyển dụng từ Data Analyst sang Data Engineer."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tìm tin tuyển dụng vị trí Data Analyst"
+        },
+        {
+          "role": "user",
+          "content": "À nhầm, đổi sang vị trí Data Engineer"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "Data Engineer"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "Data Engineer",
+              "num_pages": 1
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "job_search",
+          "args": {
+            "query": "Data Engineer",
+            "num_pages": 1
+          },
+          "result": {
+            "tool": "job_search",
+            "query": "Data Engineer",
+            "items": [
+              {
+                "title": "Data Engineer - Project Delivery Specialist",
+                "employer": "Deloitte",
+                "location": "Washington, US",
+                "summary": "Are you an experienced, passionate pioneer in technology who wants to work in a collaborative environment? As an experienced Data Engineer - Project Delivery Specialist you will have the ability to sh",
+                "url": "https://www.indeed.com/viewjob?jk=d746240132fd5d5f",
+                "source": "JSearch"
+              },
+              {
+                "title": "Junior Data Engineer",
+                "employer": "Seneca Resources",
+                "location": "Alexandria, US",
+                "summary": "Position Title: Junior Data Engineer\n\nLocation: Alexandria, VA (On-Site)\n\nClearance Requirements: Secret\n\nPosition Description\n\nJoin a mission-driven team as a Junior Data Engineer supporting critical",
+                "url": "https://www.linkedin.com/jobs/view/junior-data-engineer-at-seneca-resources-4443178657",
+                "source": "JSearch"
+              },
+              {
+                "title": "Data Pipeline Engineer (Junior - Mid)",
+                "employer": "SERVISS LLC",
+                "location": "Arlington, US",
+                "summary": "Data Pipeline Engineer (Junior – Mid)Location: Washington D.C. Area / Remote\nEmployment Type: Full-TimeAbout SERVISSAt SERVISS, we deliver cutting-edge cybersecurity and IT solutions to government and",
+                "url": "https://www.ziprecruiter.com/c/SERVISS/Job/Data-Pipeline-Engineer-(Junior-Mid)/-in-Remote,US?jid=dfa7ca89100ee31e",
+                "source": "JSearch"
+              },
+              {
+                "title": "Data Engineer, Staff",
+                "employer": "Bigbear.ai",
+                "location": "Washington, US",
+                "summary": "Overview\n\nBigBear.ai is seeking a Data Engineer to conduct design, implement, and operate data management systems for intelligence needs. The successful candidate will design how data will be stored, ",
+                "url": "https://careers.bigbear.ai/jobs/4361?lang=en-us",
+                "source": "JSearch"
+              },
+              {
+                "title": "Mid-Level Data Engineer",
+                "employer": "Simple Technology Solutions",
+                "location": "Washington, US",
+                "summary": "At Simple Technology Solutions, our people are our priority. We know our team members are more than employees—they're parents, friends, volunteers, artists, and athletes. That's why we offer flexibili",
+                "url": "https://www.ziprecruiter.com/c/Simple-Technology-Solutions/Job/Mid-Level-Data-Engineer/-in-Washington,DC?jid=34d99d4fbf393f5d",
+                "source": "JSearch"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "GM03_job_search_clarify_then_fill",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_job_fill_title",
+        "difficulty": "medium",
+        "what_it_tests": "2 turns: bổ sung tên vị trí công việc ở lượt 2 sau khi được hỏi lại."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tìm bài đăng tuyển dụng việc làm"
+        },
+        {
+          "role": "user",
+          "content": "Cho vị trí Solution Architect"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "Solution Architect"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "job_search",
+            "args": {
+              "query": "Solution Architect",
+              "num_pages": 1
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "job_search",
+          "args": {
+            "query": "Solution Architect",
+            "num_pages": 1
+          },
+          "result": {
+            "tool": "job_search",
+            "query": "Solution Architect",
+            "items": [
+              {
+                "title": "Cloud Solutions Architect with AI experience - Google/Oracle",
+                "employer": "Zillion Technologies, Inc.",
+                "location": "Washington, US",
+                "summary": "Position Title: Cloud Solutions Architect with AI (Google / Oracle)\n\nLocation: Washington DC - hybrid - one or two days a week\n\nKey Responsibilities:\n• Conduct architecture assessments focusing on Ide",
+                "url": "https://www.linkedin.com/jobs/view/cloud-solutions-architect-with-ai-experience-google-oracle-at-zillion-technologies-inc-4445146654",
+                "source": "JSearch"
+              },
+              {
+                "title": "SAP Enterprise Solution Architect",
+                "employer": "Groundswell",
+                "location": "McLean, US",
+                "summary": "Who Are We?\n\nGroundswell is a premier technology integrator and solution provider, resolutely committed to solving the most complex challenges facing federal agencies today. Our name, Groundswell, rep",
+                "url": "https://www.linkedin.com/jobs/view/sap-enterprise-solution-architect-at-groundswell-4443638047",
+                "source": "JSearch"
+              },
+              {
+                "title": "Information Technology Solutions Architect",
+                "employer": "ExpediteInfoTech, Inc.",
+                "location": "Rockville, US",
+                "summary": "Job Title: Information Technology Solutions Architect\n\nEmployment Type: Full-Time. This position requires a Permanent Resident or a U.S. citizen.\n\nLocation: Rockville, MD preferred; Washington, DC met",
+                "url": "https://www.linkedin.com/jobs/view/information-technology-solutions-architect-at-expediteinfotech-inc-4443298484",
+                "source": "JSearch"
+              },
+              {
+                "title": "Sr Exchange Cloud Solution Architecture-CTJ-Top Secret",
+                "employer": "Microsoft",
+                "location": "Washington, US",
+                "summary": "Overview\n\nAbout the role\n\nMicrosoft's mission is to empower every person and every organization on the planet to achieve more. On our Federal team, you'll help a U.S. government customer operate and m",
+                "url": "https://www.linkedin.com/jobs/view/sr-exchange-cloud-solution-architecture-ctj-top-secret-at-microsoft-4445336166",
+                "source": "JSearch"
+              },
+              {
+                "title": "Sr. Solutions Architect, SMB",
+                "employer": "Amazon Web Services (AWS)",
+                "location": "Arlington, US",
+                "summary": "Description\n\nAWS Global Sales drives adoption of the AWS cloud worldwide, enabling customers of all sizes to innovate and expand in the cloud. Our team empowers every customer to grow by providing tai",
+                "url": "https://www.linkedin.com/jobs/view/sr-solutions-architect-smb-at-amazon-web-services-aws-4444757604",
+                "source": "JSearch"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "GM04_job_search_read_url_multiturn",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_job_read_url",
+        "difficulty": "medium",
+        "what_it_tests": "2 turns: cung cấp URL ở lượt 2 → gọi fetch đọc URL bài tuyển dụng."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tóm tắt thông tin tuyển dụng này hộ mình"
+        },
+        {
+          "role": "user",
+          "content": "https://www.linkedin.com/jobs/view/98765432"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://www.linkedin.com/jobs/view/98765432"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://www.linkedin.com/jobs/view/98765432"
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://www.linkedin.com/jobs/view/98765432"
+          },
+          "result": {
+            "tool": "read_url",
+            "error": "HTTPError",
+            "message": "403 Client Error: Forbidden for url: https://api.firecrawl.dev/v1/scrape"
+          }
+        }
+      ]
+    },
+    {
+      "id": "GM05_job_search_confirm_post",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_job_confirm_post",
+        "difficulty": "medium",
+        "what_it_tests": "Hành động đăng/gửi tin nhạy cảm → bắt buộc gọi clarify yes_no xin xác nhận."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Soạn và đăng thông tin tuyển dụng này lên Telegram channel"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "yes_no"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": true,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "question": "Bạn muốn đăng thông tin tuyển dụng nào lên Telegram? Vui lòng cung cấp chi tiết về vị trí tuyển dụng (tên công việc, công ty, mô tả, link, v.v.) hoặc gửi link bài đăng tuyển dụng cụ thể để tôi có thể soạn nội dung.",
+              "response_type": "text"
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": "wrong_arg_value",
+        "failure_type": "wrong_boundary",
+        "failures": [
+          "response_type: expected 'yes_no', got 'text'"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Bạn muốn đăng thông tin tuyển dụng nào lên Telegram? Vui lòng cung cấp chi tiết về vị trí tuyển dụng (tên công việc, công ty, mô tả, link, v.v.) hoặc gửi link bài đăng tuyển dụng cụ thể để tôi có thể soạn nội dung.",
+            "response_type": "text"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn muốn đăng thông tin tuyển dụng nào lên Telegram? Vui lòng cung cấp chi tiết về vị trí tuyển dụng (tên công việc, công ty, mô tả, link, v.v.) hoặc gửi link bài đăng tuyển dụng cụ thể để tôi có thể soạn nội dung.",
+            "response_type": "text",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    }
+  ]
+}
